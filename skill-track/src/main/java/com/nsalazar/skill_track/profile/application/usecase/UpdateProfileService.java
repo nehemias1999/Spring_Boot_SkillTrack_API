@@ -3,6 +3,7 @@ package com.nsalazar.skill_track.profile.application.usecase;
 import com.nsalazar.skill_track.profile.application.port.in.UpdateProfileUseCase;
 import com.nsalazar.skill_track.profile.domain.Profile;
 import com.nsalazar.skill_track.profile.domain.port.out.ProfileRepositoryPort;
+import com.nsalazar.skill_track.shared.exception.BusinessValidationException;
 import com.nsalazar.skill_track.shared.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +30,9 @@ public class UpdateProfileService implements UpdateProfileUseCase {
     @Override
     public Profile updateProfile(UpdateProfileCommand command) {
         log.info("Updating profile for studentId '{}'", command.studentId());
+        if (command.bio() == null && command.linkedInUrl() == null && command.phoneNumber() == null) {
+            throw new BusinessValidationException("At least one field must be provided for update");
+        }
         Profile existing = profileRepositoryPort.findByStudentId(command.studentId())
                 .orElseThrow(() -> new ResourceNotFoundException("Profile not found for studentId: " + command.studentId()));
 

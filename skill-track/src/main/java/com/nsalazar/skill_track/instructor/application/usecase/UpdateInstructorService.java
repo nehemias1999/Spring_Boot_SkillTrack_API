@@ -3,6 +3,7 @@ package com.nsalazar.skill_track.instructor.application.usecase;
 import com.nsalazar.skill_track.instructor.application.port.in.UpdateInstructorUseCase;
 import com.nsalazar.skill_track.instructor.domain.Instructor;
 import com.nsalazar.skill_track.instructor.domain.port.out.InstructorRepositoryPort;
+import com.nsalazar.skill_track.shared.exception.BusinessValidationException;
 import com.nsalazar.skill_track.shared.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +30,9 @@ public class UpdateInstructorService implements UpdateInstructorUseCase {
     @Override
     public Instructor updateInstructor(UpdateInstructorCommand command) {
         log.info("Updating instructor with id '{}'", command.id());
+        if (command.firstName() == null && command.lastName() == null && command.email() == null && command.bio() == null) {
+            throw new BusinessValidationException("At least one field must be provided for update");
+        }
         Instructor existing = instructorRepositoryPort.findById(command.id())
                 .orElseThrow(() -> new ResourceNotFoundException("Instructor not found with id: " + command.id()));
 

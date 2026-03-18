@@ -1,5 +1,6 @@
 package com.nsalazar.skill_track.student.application.usecase;
 
+import com.nsalazar.skill_track.shared.exception.BusinessValidationException;
 import com.nsalazar.skill_track.shared.exception.ResourceNotFoundException;
 import com.nsalazar.skill_track.student.application.port.in.UpdateStudentUseCase;
 import com.nsalazar.skill_track.student.domain.Student;
@@ -31,6 +32,9 @@ public class UpdateStudentService implements UpdateStudentUseCase {
     @Override
     public Student updateStudent(UpdateStudentCommand command) {
         log.info("Updating student with id '{}'", command.id());
+        if (command.firstName() == null && command.lastName() == null && command.email() == null) {
+            throw new BusinessValidationException("At least one field must be provided for update");
+        }
         Student existing = studentRepositoryPort.findById(command.id())
                 .orElseThrow(() -> new ResourceNotFoundException("Student not found with id: " + command.id()));
 
