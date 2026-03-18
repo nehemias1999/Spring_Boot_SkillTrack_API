@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
 /**
  * Application service that handles the get-course use case.
  * Retrieves an existing course by id, throwing a not-found exception when absent.
@@ -29,7 +31,7 @@ public class GetCourseService implements GetCourseUseCase {
      * @throws ResourceNotFoundException if no course exists with the given id
      */
     @Override
-    public Course getCourseById(Long id) {
+    public Course getCourseById(UUID id) {
         log.info("Fetching course with id {}", id);
         Course course = courseRepositoryPort.findById(id)
                 .orElseThrow(() -> {

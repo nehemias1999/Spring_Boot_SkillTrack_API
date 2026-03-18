@@ -7,6 +7,8 @@ import com.nsalazar.skill_track.profile.infrastructure.in.web.dto.ProfileRespons
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.util.UUID;
+
 /**
  * MapStruct mapper that converts between the web layer DTOs and the application-layer
  * command/domain types for the profile bounded context.
@@ -23,7 +25,7 @@ public interface ProfileWebMapper {
      * @return the corresponding use-case command
      */
     @Mapping(target = "studentId", source = "studentId")
-    CreateProfileCommand toCommand(Long studentId, CreateProfileRequest request);
+    CreateProfileCommand toCommand(UUID studentId, CreateProfileRequest request);
 
     /**
      * Converts a {@link Profile} domain object into a {@link ProfileResponse} DTO.

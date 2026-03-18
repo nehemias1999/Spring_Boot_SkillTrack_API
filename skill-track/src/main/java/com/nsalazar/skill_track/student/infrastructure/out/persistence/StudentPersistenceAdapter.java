@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * Persistence adapter that implements {@link StudentRepositoryPort} using Spring Data JPA.
@@ -40,7 +41,7 @@ public class StudentPersistenceAdapter implements StudentRepositoryPort {
      * @return an {@link Optional} containing the student if found, or empty otherwise
      */
     @Override
-    public Optional<Student> findById(Long id) {
+    public Optional<Student> findById(UUID id) {
         log.debug("Finding student by id {}", id);
         return studentJpaRepository.findById(id).map(mapper::toDomain);
     }

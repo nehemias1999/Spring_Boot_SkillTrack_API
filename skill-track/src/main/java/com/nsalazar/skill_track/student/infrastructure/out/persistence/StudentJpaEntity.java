@@ -3,6 +3,8 @@ package com.nsalazar.skill_track.student.infrastructure.out.persistence;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.UUID;
+
 /**
  * JPA entity that maps to the {@code students} database table.
  * Used exclusively within the persistence layer; not exposed to the domain.
@@ -15,10 +17,10 @@ import lombok.*;
 @AllArgsConstructor
 public class StudentJpaEntity {
 
-    /** Auto-generated primary key. */
+    /** Auto-generated UUID primary key. */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     /** The student's first name. */
     @Column(nullable = false)

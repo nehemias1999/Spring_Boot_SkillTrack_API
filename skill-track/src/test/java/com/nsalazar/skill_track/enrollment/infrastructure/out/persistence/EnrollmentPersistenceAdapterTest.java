@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Import;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -48,6 +49,6 @@ class EnrollmentPersistenceAdapterTest extends AbstractPersistenceTest {
 
         assertThat(saved.id()).isNotNull();
         assertThat(adapter.existsByStudentIdAndCourseId(student.getId(), course.getId())).isTrue();
-        assertThat(adapter.existsByStudentIdAndCourseId(student.getId(), 9999L)).isFalse();
+        assertThat(adapter.existsByStudentIdAndCourseId(student.getId(), UUID.randomUUID())).isFalse();
     }
 }

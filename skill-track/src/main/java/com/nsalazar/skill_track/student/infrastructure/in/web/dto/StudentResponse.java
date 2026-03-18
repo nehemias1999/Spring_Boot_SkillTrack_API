@@ -1,5 +1,7 @@
 package com.nsalazar.skill_track.student.infrastructure.in.web.dto;
 
+import java.util.UUID;
+
 /**
  * Response DTO returned by student endpoints.
  *
@@ -8,4 +10,4 @@ package com.nsalazar.skill_track.student.infrastructure.in.web.dto;
  * @param lastName  the student's last name
  * @param email     the student's email address
  */
-public record StudentResponse(Long id, String firstName, String lastName, String email) {}
+public record StudentResponse(UUID id, String firstName, String lastName, String email) {}

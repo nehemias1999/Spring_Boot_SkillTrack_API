@@ -2,6 +2,8 @@ package com.nsalazar.skill_track.enrollment.domain.port.out;
 
 import com.nsalazar.skill_track.enrollment.domain.Enrollment;
 
+import java.util.UUID;
+
 /**
  * Output port defining the persistence contract for {@link Enrollment} entities.
  * Implementations are provided by the infrastructure layer.
@@ -23,5 +25,5 @@ public interface EnrollmentRepositoryPort {
      * @param courseId  the course id to check
      * @return {@code true} if the student is already enrolled in the course, {@code false} otherwise
      */
-    boolean existsByStudentIdAndCourseId(Long studentId, Long courseId);
+    boolean existsByStudentIdAndCourseId(UUID studentId, UUID courseId);
 }

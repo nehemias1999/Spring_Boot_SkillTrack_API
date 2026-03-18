@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 /**
  * REST controller exposing profile endpoints under {@code /api/v1/students/{studentId}/profile}.
  * Delegates all business logic to the appropriate use-case ports.
@@ -32,7 +34,7 @@ public class ProfileController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ProfileResponse createProfile(
-            @PathVariable Long studentId,
+            @PathVariable UUID studentId,
             @RequestBody CreateProfileRequest request) {
         log.info("POST /api/v1/students/{}/profile", studentId);
         return mapper.toResponse(

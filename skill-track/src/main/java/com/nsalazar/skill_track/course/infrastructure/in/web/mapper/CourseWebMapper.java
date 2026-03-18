@@ -7,6 +7,8 @@ import com.nsalazar.skill_track.course.infrastructure.in.web.dto.CourseResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.util.UUID;
+
 /**
  * MapStruct mapper that converts between the web layer DTOs and the application-layer
  * command/domain types for the course bounded context.
@@ -23,7 +25,7 @@ public interface CourseWebMapper {
      * @return the corresponding use-case command
      */
     @Mapping(target = "instructorId", source = "instructorId")
-    CreateCourseCommand toCommand(Long instructorId, CreateCourseRequest request);
+    CreateCourseCommand toCommand(UUID instructorId, CreateCourseRequest request);
 
     /**
      * Converts a {@link Course} domain object into a {@link CourseResponse} DTO.

@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * Persistence adapter that implements {@link InstructorRepositoryPort} using Spring Data JPA.
@@ -40,7 +41,7 @@ public class InstructorPersistenceAdapter implements InstructorRepositoryPort {
      * @return an {@link Optional} containing the instructor if found, or empty otherwise
      */
     @Override
-    public Optional<Instructor> findById(Long id) {
+    public Optional<Instructor> findById(UUID id) {
         log.debug("Finding instructor by id {}", id);
         return instructorJpaRepository.findById(id).map(mapper::toDomain);
     }

@@ -3,6 +3,7 @@ package com.nsalazar.skill_track.profile.domain.port.out;
 import com.nsalazar.skill_track.profile.domain.Profile;
 
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * Output port defining the persistence contract for {@link Profile} entities.
@@ -24,7 +25,7 @@ public interface ProfileRepositoryPort {
      * @param studentId the id of the student whose profile is requested
      * @return an {@link Optional} containing the profile if found, or empty otherwise
      */
-    Optional<Profile> findByStudentId(Long studentId);
+    Optional<Profile> findByStudentId(UUID studentId);
 
     /**
      * Checks whether a profile already exists for the given student.
@@ -32,5 +33,5 @@ public interface ProfileRepositoryPort {
      * @param studentId the id of the student to check
      * @return {@code true} if a profile exists for this student, {@code false} otherwise
      */
-    boolean existsByStudentId(Long studentId);
+    boolean existsByStudentId(UUID studentId);
 }

@@ -10,6 +10,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.UUID;
+
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -26,14 +28,15 @@ class CreateStudentServiceTest {
     @Test
     void createStudent_happyPath_returnsCreatedStudent() {
         CreateStudentCommand command = new CreateStudentCommand("John", "Doe", "john@example.com");
-        Student saved = new Student(1L, "John", "Doe", "john@example.com");
+        UUID generatedId = UUID.randomUUID();
+        Student saved = new Student(generatedId, "John", "Doe", "john@example.com");
 
         when(studentRepositoryPort.existsByEmail("john@example.com")).thenReturn(false);
         when(studentRepositoryPort.save(any())).thenReturn(saved);
 
         Student result = createStudentService.createStudent(command);
 
-        assertThat(result.id()).isEqualTo(1L);
+        assertThat(result.id()).isEqualTo(generatedId);
         assertThat(result.email()).isEqualTo("john@example.com");
         verify(studentRepositoryPort).save(any(Student.class));
     }

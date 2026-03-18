@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * Persistence adapter that implements {@link ProfileRepositoryPort} using Spring Data JPA.
@@ -40,7 +41,7 @@ public class ProfilePersistenceAdapter implements ProfileRepositoryPort {
      * @return an {@link Optional} containing the profile if found, or empty otherwise
      */
     @Override
-    public Optional<Profile> findByStudentId(Long studentId) {
+    public Optional<Profile> findByStudentId(UUID studentId) {
         log.debug("Finding profile by studentId {}", studentId);
         return profileJpaRepository.findByStudentId(studentId).map(mapper::toDomain);
     }
@@ -52,7 +53,7 @@ public class ProfilePersistenceAdapter implements ProfileRepositoryPort {
      * @return {@code true} if a profile exists, {@code false} otherwise
      */
     @Override
-    public boolean existsByStudentId(Long studentId) {
+    public boolean existsByStudentId(UUID studentId) {
         log.debug("Checking existence of profile for studentId {}", studentId);
         return profileJpaRepository.existsByStudentId(studentId);
     }

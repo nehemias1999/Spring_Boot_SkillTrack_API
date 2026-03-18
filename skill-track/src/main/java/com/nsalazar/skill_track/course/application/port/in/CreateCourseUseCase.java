@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 /**
  * Input port for the create-course use case.
@@ -22,7 +23,7 @@ public interface CreateCourseUseCase {
      * @param price        the enrolment price (must be present and positive)
      */
     record CreateCourseCommand(
-            Long instructorId,
+            UUID instructorId,
             @NotBlank String title,
             String description,
             @NotNull @Positive BigDecimal price

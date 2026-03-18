@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 /**
  * REST controller exposing enrollment endpoints under
  * {@code /api/v1/students/{studentId}/enrollments}.
@@ -33,8 +35,8 @@ public class EnrollmentController {
     @PostMapping("/{courseId}")
     @ResponseStatus(HttpStatus.CREATED)
     public EnrollmentResponse enroll(
-            @PathVariable Long studentId,
-            @PathVariable Long courseId) {
+            @PathVariable UUID studentId,
+            @PathVariable UUID courseId) {
         log.info("POST /api/v1/students/{}/enrollments/{}", studentId, courseId);
         return mapper.toResponse(enrollStudentUseCase.enrollStudent(studentId, courseId));
     }

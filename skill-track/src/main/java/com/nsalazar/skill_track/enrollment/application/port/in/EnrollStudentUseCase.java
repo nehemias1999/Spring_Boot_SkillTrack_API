@@ -2,6 +2,8 @@ package com.nsalazar.skill_track.enrollment.application.port.in;
 
 import com.nsalazar.skill_track.enrollment.domain.Enrollment;
 
+import java.util.UUID;
+
 /**
  * Input port for the enroll-student use case.
  * Defines the contract for enrolling a student in a course.
@@ -15,5 +17,5 @@ public interface EnrollStudentUseCase {
      * @param courseId  the id of the course to enroll in
      * @return the newly created {@link Enrollment} with its assigned id and timestamp
      */
-    Enrollment enrollStudent(Long studentId, Long courseId);
+    Enrollment enrollStudent(UUID studentId, UUID courseId);
 }

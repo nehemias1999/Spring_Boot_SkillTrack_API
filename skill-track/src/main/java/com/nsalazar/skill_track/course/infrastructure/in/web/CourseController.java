@@ -11,6 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 /**
  * REST controller exposing course endpoints.
  * Course creation is nested under instructors ({@code /api/v1/instructors/{instructorId}/courses})
@@ -36,7 +38,7 @@ public class CourseController {
     @PostMapping("/api/v1/instructors/{instructorId}/courses")
     @ResponseStatus(HttpStatus.CREATED)
     public CourseResponse createCourse(
-            @PathVariable Long instructorId,
+            @PathVariable UUID instructorId,
             @Valid @RequestBody CreateCourseRequest request) {
         log.info("POST /api/v1/instructors/{}/courses - title: '{}'", instructorId, request.title());
         return mapper.toResponse(createCourseUseCase.createCourse(mapper.toCommand(instructorId, request)));
@@ -49,7 +51,7 @@ public class CourseController {
      * @return the matching course as a {@link CourseResponse}
      */
     @GetMapping("/api/v1/courses/{id}")
-    public CourseResponse getCourse(@PathVariable Long id) {
+    public CourseResponse getCourse(@PathVariable UUID id) {
         log.info("GET /api/v1/courses/{}", id);
         return mapper.toResponse(getCourseUseCase.getCourseById(id));
     }

@@ -1,6 +1,7 @@
 package com.nsalazar.skill_track.enrollment.infrastructure.in.web.dto;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Response DTO returned by enrollment endpoints.
@@ -10,4 +11,4 @@ import java.time.LocalDateTime;
  * @param courseId   the id of the course
  * @param enrolledAt the timestamp at which the enrollment was created
  */
-public record EnrollmentResponse(Long id, Long studentId, Long courseId, LocalDateTime enrolledAt) {}
+public record EnrollmentResponse(UUID id, UUID studentId, UUID courseId, LocalDateTime enrolledAt) {}

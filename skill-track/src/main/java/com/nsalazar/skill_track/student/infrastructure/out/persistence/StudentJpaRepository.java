@@ -2,11 +2,13 @@ package com.nsalazar.skill_track.student.infrastructure.out.persistence;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.UUID;
+
 /**
  * Spring Data JPA repository for {@link StudentJpaEntity}.
  * Provides standard CRUD operations and a derived email-existence query.
  */
-interface StudentJpaRepository extends JpaRepository<StudentJpaEntity, Long> {
+interface StudentJpaRepository extends JpaRepository<StudentJpaEntity, UUID> {
 
     /**
      * Checks whether a student with the given email address exists in the database.

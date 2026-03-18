@@ -3,6 +3,7 @@ package com.nsalazar.skill_track.student.domain.port.out;
 import com.nsalazar.skill_track.student.domain.Student;
 
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * Output port defining the persistence contract for {@link Student} entities.
@@ -24,7 +25,7 @@ public interface StudentRepositoryPort {
      * @param id the student id to search for
      * @return an {@link Optional} containing the student if found, or empty otherwise
      */
-    Optional<Student> findById(Long id);
+    Optional<Student> findById(UUID id);
 
     /**
      * Checks whether a student with the given email already exists.

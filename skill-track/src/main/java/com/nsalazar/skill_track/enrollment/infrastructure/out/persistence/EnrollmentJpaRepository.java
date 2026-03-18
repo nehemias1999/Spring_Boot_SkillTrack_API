@@ -2,11 +2,13 @@ package com.nsalazar.skill_track.enrollment.infrastructure.out.persistence;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.UUID;
+
 /**
  * Spring Data JPA repository for {@link EnrollmentJpaEntity}.
  * Provides standard CRUD operations and a derived duplicate-enrollment check.
  */
-interface EnrollmentJpaRepository extends JpaRepository<EnrollmentJpaEntity, Long> {
+interface EnrollmentJpaRepository extends JpaRepository<EnrollmentJpaEntity, UUID> {
 
     /**
      * Checks whether an enrollment record exists for the given student and course pair.
@@ -15,5 +17,5 @@ interface EnrollmentJpaRepository extends JpaRepository<EnrollmentJpaEntity, Lon
      * @param courseId  the id of the course
      * @return {@code true} if the student is already enrolled in the course, {@code false} otherwise
      */
-    boolean existsByStudentIdAndCourseId(Long studentId, Long courseId);
+    boolean existsByStudentIdAndCourseId(UUID studentId, UUID courseId);
 }

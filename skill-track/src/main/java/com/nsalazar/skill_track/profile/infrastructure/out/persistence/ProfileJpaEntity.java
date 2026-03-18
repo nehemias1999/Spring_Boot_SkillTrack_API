@@ -4,6 +4,8 @@ import com.nsalazar.skill_track.student.infrastructure.out.persistence.StudentJp
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.UUID;
+
 /**
  * JPA entity that maps to the {@code profiles} database table.
  * Holds a one-to-one relationship with {@link StudentJpaEntity}.
@@ -17,10 +19,10 @@ import lombok.*;
 @AllArgsConstructor
 public class ProfileJpaEntity {
 
-    /** Auto-generated primary key. */
+    /** Auto-generated UUID primary key. */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     /** The student who owns this profile. */
     @OneToOne

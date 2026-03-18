@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 /**
  * JPA entity that maps to the {@code courses} database table.
@@ -19,10 +20,10 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class CourseJpaEntity {
 
-    /** Auto-generated primary key. */
+    /** Auto-generated UUID primary key. */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     /** The course title. */
     @Column(nullable = false)

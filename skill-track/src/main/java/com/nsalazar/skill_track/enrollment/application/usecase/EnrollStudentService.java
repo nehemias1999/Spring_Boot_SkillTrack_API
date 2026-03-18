@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Application service that handles the enroll-student use case.
@@ -39,7 +40,7 @@ public class EnrollStudentService implements EnrollStudentUseCase {
      * @throws BusinessValidationException if the student is already enrolled in the course
      */
     @Override
-    public Enrollment enrollStudent(Long studentId, Long courseId) {
+    public Enrollment enrollStudent(UUID studentId, UUID courseId) {
         log.info("Enrolling studentId {} in courseId {}", studentId, courseId);
         if (!studentRepositoryPort.findById(studentId).isPresent()) {
             log.warn("Student not found with id {}", studentId);

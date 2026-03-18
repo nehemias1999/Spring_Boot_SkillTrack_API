@@ -1,5 +1,7 @@
 package com.nsalazar.skill_track.student.domain;
 
+import java.util.UUID;
+
 /**
  * Domain record representing a student in the system.
  *
@@ -8,4 +10,4 @@ package com.nsalazar.skill_track.student.domain;
  * @param lastName  the student's last name
  * @param email     the student's unique email address
  */
-public record Student(Long id, String firstName, String lastName, String email) {}
+public record Student(UUID id, String firstName, String lastName, String email) {}

@@ -1,6 +1,7 @@
 package com.nsalazar.skill_track.course.infrastructure.in.web.dto;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 /**
  * Response DTO returned by course endpoints.
@@ -11,4 +12,4 @@ import java.math.BigDecimal;
  * @param price        the enrolment price
  * @param instructorId the id of the instructor who owns this course
  */
-public record CourseResponse(Long id, String title, String description, BigDecimal price, Long instructorId) {}
+public record CourseResponse(UUID id, String title, String description, BigDecimal price, UUID instructorId) {}

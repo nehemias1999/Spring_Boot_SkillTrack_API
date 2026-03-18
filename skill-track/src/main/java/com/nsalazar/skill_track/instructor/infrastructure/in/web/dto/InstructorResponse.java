@@ -1,5 +1,7 @@
 package com.nsalazar.skill_track.instructor.infrastructure.in.web.dto;
 
+import java.util.UUID;
+
 /**
  * Response DTO returned by instructor endpoints.
  *
@@ -9,4 +11,4 @@ package com.nsalazar.skill_track.instructor.infrastructure.in.web.dto;
  * @param email     the instructor's email address
  * @param bio       optional free-text biography
  */
-public record InstructorResponse(Long id, String firstName, String lastName, String email, String bio) {}
+public record InstructorResponse(UUID id, String firstName, String lastName, String email, String bio) {}

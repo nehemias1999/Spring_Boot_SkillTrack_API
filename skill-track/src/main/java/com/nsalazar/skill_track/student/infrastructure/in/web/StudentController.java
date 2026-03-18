@@ -11,6 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 /**
  * REST controller exposing student endpoints under {@code /api/v1/students}.
  * Delegates all business logic to the appropriate use-case ports.
@@ -45,7 +47,7 @@ public class StudentController {
      * @return the matching student as a {@link StudentResponse}
      */
     @GetMapping("/{id}")
-    public StudentResponse getStudent(@PathVariable Long id) {
+    public StudentResponse getStudent(@PathVariable UUID id) {
         log.info("GET /api/v1/students/{}", id);
         return mapper.toResponse(getStudentUseCase.getStudentById(id));
     }

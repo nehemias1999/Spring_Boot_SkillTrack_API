@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 /**
  * Persistence adapter that implements {@link EnrollmentRepositoryPort} using Spring Data JPA.
  * Translates between the domain {@link Enrollment} model and the JPA entity layer.
@@ -40,7 +42,7 @@ public class EnrollmentPersistenceAdapter implements EnrollmentRepositoryPort {
      * @return {@code true} if the student is already enrolled in the course, {@code false} otherwise
      */
     @Override
-    public boolean existsByStudentIdAndCourseId(Long studentId, Long courseId) {
+    public boolean existsByStudentIdAndCourseId(UUID studentId, UUID courseId) {
         log.debug("Checking enrollment existence for studentId {} and courseId {}", studentId, courseId);
         return enrollmentJpaRepository.existsByStudentIdAndCourseId(studentId, courseId);
     }

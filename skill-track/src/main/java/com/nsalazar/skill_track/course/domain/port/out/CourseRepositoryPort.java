@@ -3,6 +3,7 @@ package com.nsalazar.skill_track.course.domain.port.out;
 import com.nsalazar.skill_track.course.domain.Course;
 
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * Output port defining the persistence contract for {@link Course} entities.
@@ -24,5 +25,5 @@ public interface CourseRepositoryPort {
      * @param id the course id to search for
      * @return an {@link Optional} containing the course if found, or empty otherwise
      */
-    Optional<Course> findById(Long id);
+    Optional<Course> findById(UUID id);
 }

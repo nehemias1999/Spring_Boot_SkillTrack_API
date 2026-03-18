@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * JPA entity that maps to the {@code instructors} database table.
@@ -19,10 +20,10 @@ import java.util.List;
 @AllArgsConstructor
 public class InstructorJpaEntity {
 
-    /** Auto-generated primary key. */
+    /** Auto-generated UUID primary key. */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     /** The instructor's first name. */
     @Column(nullable = false)

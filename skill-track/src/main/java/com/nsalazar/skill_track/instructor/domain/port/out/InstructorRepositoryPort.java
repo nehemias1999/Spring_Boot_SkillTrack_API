@@ -3,6 +3,7 @@ package com.nsalazar.skill_track.instructor.domain.port.out;
 import com.nsalazar.skill_track.instructor.domain.Instructor;
 
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * Output port defining the persistence contract for {@link Instructor} entities.
@@ -24,7 +25,7 @@ public interface InstructorRepositoryPort {
      * @param id the instructor id to search for
      * @return an {@link Optional} containing the instructor if found, or empty otherwise
      */
-    Optional<Instructor> findById(Long id);
+    Optional<Instructor> findById(UUID id);
 
     /**
      * Checks whether an instructor with the given email already exists.

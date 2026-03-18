@@ -2,6 +2,8 @@ package com.nsalazar.skill_track.profile.application.port.in;
 
 import com.nsalazar.skill_track.profile.domain.Profile;
 
+import java.util.UUID;
+
 /**
  * Input port for the create-profile use case.
  * Defines the command record and the single method that drives profile creation.
@@ -16,7 +18,7 @@ public interface CreateProfileUseCase {
      * @param linkedInUrl optional LinkedIn profile URL
      * @param phoneNumber optional phone number
      */
-    record CreateProfileCommand(Long studentId, String bio, String linkedInUrl, String phoneNumber) {}
+    record CreateProfileCommand(UUID studentId, String bio, String linkedInUrl, String phoneNumber) {}
 
     /**
      * Creates a new profile for the student identified in the command.

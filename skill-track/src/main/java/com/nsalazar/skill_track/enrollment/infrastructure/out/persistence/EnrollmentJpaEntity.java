@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * JPA entity that maps to the {@code enrollments} database table.
@@ -22,10 +23,10 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class EnrollmentJpaEntity {
 
-    /** Auto-generated primary key. */
+    /** Auto-generated UUID primary key. */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     /** The enrolled student. */
     @ManyToOne(fetch = FetchType.LAZY)

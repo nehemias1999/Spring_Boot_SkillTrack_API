@@ -10,6 +10,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -25,20 +26,22 @@ class GetStudentServiceTest {
 
     @Test
     void getStudentById_found_returnsStudent() {
-        Student student = new Student(1L, "Jane", "Doe", "jane@example.com");
-        when(studentRepositoryPort.findById(1L)).thenReturn(Optional.of(student));
+        UUID id = UUID.randomUUID();
+        Student student = new Student(id, "Jane", "Doe", "jane@example.com");
+        when(studentRepositoryPort.findById(id)).thenReturn(Optional.of(student));
 
-        Student result = getStudentService.getStudentById(1L);
+        Student result = getStudentService.getStudentById(id);
 
         assertThat(result).isEqualTo(student);
     }
 
     @Test
     void getStudentById_notFound_throwsResourceNotFoundException() {
-        when(studentRepositoryPort.findById(999L)).thenReturn(Optional.empty());
+        UUID id = UUID.randomUUID();
+        when(studentRepositoryPort.findById(id)).thenReturn(Optional.empty());
 
-        assertThatThrownBy(() -> getStudentService.getStudentById(999L))
+        assertThatThrownBy(() -> getStudentService.getStudentById(id))
                 .isInstanceOf(ResourceNotFoundException.class)
-                .hasMessageContaining("999");
+                .hasMessageContaining(id.toString());
     }
 }

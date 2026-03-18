@@ -1,5 +1,7 @@
 package com.nsalazar.skill_track.instructor.domain;
 
+import java.util.UUID;
+
 /**
  * Domain record representing an instructor in the system.
  *
@@ -9,4 +11,4 @@ package com.nsalazar.skill_track.instructor.domain;
  * @param email     the instructor's unique email address
  * @param bio       optional free-text biography
  */
-public record Instructor(Long id, String firstName, String lastName, String email, String bio) {}
+public record Instructor(UUID id, String firstName, String lastName, String email, String bio) {}

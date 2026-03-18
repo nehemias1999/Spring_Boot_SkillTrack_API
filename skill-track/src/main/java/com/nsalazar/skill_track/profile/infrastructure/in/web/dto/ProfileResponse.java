@@ -1,5 +1,7 @@
 package com.nsalazar.skill_track.profile.infrastructure.in.web.dto;
 
+import java.util.UUID;
+
 /**
  * Response DTO returned by profile endpoints.
  *
@@ -9,4 +11,4 @@ package com.nsalazar.skill_track.profile.infrastructure.in.web.dto;
  * @param linkedInUrl optional LinkedIn profile URL
  * @param phoneNumber optional phone number
  */
-public record ProfileResponse(Long id, Long studentId, String bio, String linkedInUrl, String phoneNumber) {}
+public record ProfileResponse(UUID id, UUID studentId, String bio, String linkedInUrl, String phoneNumber) {}

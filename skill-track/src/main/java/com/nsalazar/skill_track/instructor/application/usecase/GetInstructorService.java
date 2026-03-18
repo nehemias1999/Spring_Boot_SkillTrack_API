@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
 /**
  * Application service that handles the get-instructor use case.
  * Retrieves an existing instructor by id, throwing a not-found exception when absent.
@@ -29,7 +31,7 @@ public class GetInstructorService implements GetInstructorUseCase {
      * @throws ResourceNotFoundException if no instructor exists with the given id
      */
     @Override
-    public Instructor getInstructorById(Long id) {
+    public Instructor getInstructorById(UUID id) {
         log.info("Fetching instructor with id {}", id);
         Instructor instructor = instructorRepositoryPort.findById(id)
                 .orElseThrow(() -> {

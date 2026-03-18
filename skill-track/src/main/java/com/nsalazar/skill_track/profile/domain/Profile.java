@@ -1,5 +1,7 @@
 package com.nsalazar.skill_track.profile.domain;
 
+import java.util.UUID;
+
 /**
  * Domain record representing an extended profile attached to a student.
  *
@@ -9,4 +11,4 @@ package com.nsalazar.skill_track.profile.domain;
  * @param linkedInUrl optional LinkedIn profile URL
  * @param phoneNumber optional phone number
  */
-public record Profile(Long id, Long studentId, String bio, String linkedInUrl, String phoneNumber) {}
+public record Profile(UUID id, UUID studentId, String bio, String linkedInUrl, String phoneNumber) {}
