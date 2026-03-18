@@ -22,6 +22,7 @@ import java.util.UUID;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/v1")
 public class CourseController {
 
     private final CreateCourseUseCase createCourseUseCase;
@@ -35,7 +36,7 @@ public class CourseController {
      * @param request      the validated request body containing course details
      * @return the created course as a {@link CourseResponse}
      */
-    @PostMapping("/api/v1/instructors/{instructorId}/courses")
+    @PostMapping("/instructors/{instructorId}/courses")
     @ResponseStatus(HttpStatus.CREATED)
     public CourseResponse createCourse(
             @PathVariable UUID instructorId,
@@ -50,7 +51,7 @@ public class CourseController {
      * @param id the path variable identifying the course
      * @return the matching course as a {@link CourseResponse}
      */
-    @GetMapping("/api/v1/courses/{id}")
+    @GetMapping("/courses/{id}")
     public CourseResponse getCourse(@PathVariable UUID id) {
         log.info("GET /api/v1/courses/{}", id);
         return mapper.toResponse(getCourseUseCase.getCourseById(id));
