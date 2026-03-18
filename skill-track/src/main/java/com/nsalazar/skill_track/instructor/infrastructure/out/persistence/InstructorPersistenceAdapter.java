@@ -5,6 +5,8 @@ import com.nsalazar.skill_track.instructor.domain.port.out.InstructorRepositoryP
 import com.nsalazar.skill_track.instructor.infrastructure.out.persistence.mapper.InstructorPersistenceMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -56,5 +58,17 @@ public class InstructorPersistenceAdapter implements InstructorRepositoryPort {
     public boolean existsByEmail(String email) {
         log.debug("Checking existence of instructor with email '{}'", email);
         return instructorJpaRepository.existsByEmail(email);
+    }
+
+    /**
+     * Returns a paginated list of all instructors.
+     *
+     * @param pageable pagination and sorting parameters
+     * @return a page of instructors
+     */
+    @Override
+    public Page<Instructor> findAll(Pageable pageable) {
+        log.debug("Finding all instructors with pageable: {}", pageable);
+        return instructorJpaRepository.findAll(pageable).map(mapper::toDomain);
     }
 }

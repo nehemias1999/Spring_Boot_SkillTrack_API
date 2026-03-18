@@ -57,4 +57,15 @@ public class ProfilePersistenceAdapter implements ProfileRepositoryPort {
         log.debug("Checking existence of profile for studentId {}", studentId);
         return profileJpaRepository.existsByStudentId(studentId);
     }
+
+    /**
+     * Deletes the profile associated with the given student id.
+     *
+     * @param studentId the student id
+     */
+    @Override
+    public void deleteByStudentId(UUID studentId) {
+        log.debug("Deleting profile for studentId: {}", studentId);
+        profileJpaRepository.deleteByStudentId(studentId);
+    }
 }

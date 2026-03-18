@@ -5,6 +5,8 @@ import com.nsalazar.skill_track.student.domain.port.out.StudentRepositoryPort;
 import com.nsalazar.skill_track.student.infrastructure.out.persistence.mapper.StudentPersistenceMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -56,5 +58,28 @@ public class StudentPersistenceAdapter implements StudentRepositoryPort {
     public boolean existsByEmail(String email) {
         log.debug("Checking existence of student with email '{}'", email);
         return studentJpaRepository.existsByEmail(email);
+    }
+
+    /**
+     * Returns a paginated list of all students.
+     *
+     * @param pageable pagination and sorting parameters
+     * @return a page of students
+     */
+    @Override
+    public Page<Student> findAll(Pageable pageable) {
+        log.debug("Finding all students with pageable: {}", pageable);
+        return studentJpaRepository.findAll(pageable).map(mapper::toDomain);
+    }
+
+    /**
+     * Deletes a student record from the database by its id.
+     *
+     * @param id the student id
+     */
+    @Override
+    public void deleteById(UUID id) {
+        log.debug("Deleting student with id: {}", id);
+        studentJpaRepository.deleteById(id);
     }
 }

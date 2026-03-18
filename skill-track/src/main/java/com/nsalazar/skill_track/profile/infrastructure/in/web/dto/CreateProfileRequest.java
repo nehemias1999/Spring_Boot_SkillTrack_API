@@ -1,11 +1,11 @@
 package com.nsalazar.skill_track.profile.infrastructure.in.web.dto;
 
+import jakarta.validation.constraints.NotBlank;
+
 /**
- * Request DTO for the create-profile endpoint.
- * All fields are optional; the student id is supplied via the URL path variable.
- *
- * @param bio         optional free-text biography
- * @param linkedInUrl optional LinkedIn profile URL
- * @param phoneNumber optional phone number
+ * Request DTO for creating a student profile.
  */
-public record CreateProfileRequest(String bio, String linkedInUrl, String phoneNumber) {}
+public record CreateProfileRequest(
+        @NotBlank(message = "Bio is required") String bio,
+        @NotBlank(message = "LinkedIn URL is required") String linkedInUrl,
+        @NotBlank(message = "Phone number is required") String phoneNumber) {}

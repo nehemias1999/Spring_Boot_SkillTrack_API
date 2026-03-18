@@ -1,6 +1,8 @@
 package com.nsalazar.skill_track.instructor.domain.port.out;
 
 import com.nsalazar.skill_track.instructor.domain.Instructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -34,4 +36,12 @@ public interface InstructorRepositoryPort {
      * @return {@code true} if an instructor with this email exists, {@code false} otherwise
      */
     boolean existsByEmail(String email);
+
+    /**
+     * Returns a paginated list of all instructors.
+     *
+     * @param pageable pagination and sorting parameters
+     * @return a page of instructors
+     */
+    Page<Instructor> findAll(Pageable pageable);
 }

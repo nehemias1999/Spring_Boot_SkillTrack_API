@@ -26,4 +26,11 @@ interface ProfileJpaRepository extends JpaRepository<ProfileJpaEntity, UUID> {
      * @return {@code true} if a profile exists, {@code false} otherwise
      */
     boolean existsByStudentId(UUID studentId);
+
+    /**
+     * Deletes the profile associated with the given student id.
+     *
+     * @param studentId the id of the student whose profile should be deleted
+     */
+    void deleteByStudentId(UUID studentId);
 }

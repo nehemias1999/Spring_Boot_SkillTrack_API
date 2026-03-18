@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -45,5 +46,29 @@ public class EnrollmentPersistenceAdapter implements EnrollmentRepositoryPort {
     public boolean existsByStudentIdAndCourseId(UUID studentId, UUID courseId) {
         log.debug("Checking enrollment existence for studentId {} and courseId {}", studentId, courseId);
         return enrollmentJpaRepository.existsByStudentIdAndCourseId(studentId, courseId);
+    }
+
+    /**
+     * Returns all enrollments for the given student.
+     *
+     * @param studentId the student id
+     * @return list of enrollments
+     */
+    @Override
+    public List<Enrollment> findByStudentId(UUID studentId) {
+        log.debug("Finding enrollments for studentId: {}", studentId);
+        return enrollmentJpaRepository.findByStudentId(studentId).stream().map(mapper::toDomain).toList();
+    }
+
+    /**
+     * Removes the enrollment for the given student and course.
+     *
+     * @param studentId the student id
+     * @param courseId  the course id
+     */
+    @Override
+    public void deleteByStudentIdAndCourseId(UUID studentId, UUID courseId) {
+        log.debug("Deleting enrollment for studentId: {} and courseId: {}", studentId, courseId);
+        enrollmentJpaRepository.deleteByStudentIdAndCourseId(studentId, courseId);
     }
 }

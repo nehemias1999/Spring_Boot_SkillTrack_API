@@ -5,6 +5,8 @@ import com.nsalazar.skill_track.course.domain.port.out.CourseRepositoryPort;
 import com.nsalazar.skill_track.course.infrastructure.out.persistence.mapper.CoursePersistenceMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -44,5 +46,28 @@ public class CoursePersistenceAdapter implements CourseRepositoryPort {
     public Optional<Course> findById(UUID id) {
         log.debug("Finding course by id {}", id);
         return courseJpaRepository.findById(id).map(mapper::toDomain);
+    }
+
+    /**
+     * Returns a paginated list of all courses.
+     *
+     * @param pageable pagination and sorting parameters
+     * @return a page of courses
+     */
+    @Override
+    public Page<Course> findAll(Pageable pageable) {
+        log.debug("Finding all courses with pageable: {}", pageable);
+        return courseJpaRepository.findAll(pageable).map(mapper::toDomain);
+    }
+
+    /**
+     * Deletes a course record from the database by its id.
+     *
+     * @param id the course id
+     */
+    @Override
+    public void deleteById(UUID id) {
+        log.debug("Deleting course with id: {}", id);
+        courseJpaRepository.deleteById(id);
     }
 }

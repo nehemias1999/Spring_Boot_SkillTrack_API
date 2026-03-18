@@ -34,4 +34,11 @@ public interface ProfileRepositoryPort {
      * @return {@code true} if a profile exists for this student, {@code false} otherwise
      */
     boolean existsByStudentId(UUID studentId);
+
+    /**
+     * Deletes the profile associated with the given student id.
+     *
+     * @param studentId the student id
+     */
+    void deleteByStudentId(UUID studentId);
 }

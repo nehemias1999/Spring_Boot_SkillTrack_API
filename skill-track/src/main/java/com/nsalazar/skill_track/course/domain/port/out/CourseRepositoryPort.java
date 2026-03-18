@@ -1,6 +1,8 @@
 package com.nsalazar.skill_track.course.domain.port.out;
 
 import com.nsalazar.skill_track.course.domain.Course;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -26,4 +28,19 @@ public interface CourseRepositoryPort {
      * @return an {@link Optional} containing the course if found, or empty otherwise
      */
     Optional<Course> findById(UUID id);
+
+    /**
+     * Returns a paginated list of all courses.
+     *
+     * @param pageable pagination and sorting parameters
+     * @return a page of courses
+     */
+    Page<Course> findAll(Pageable pageable);
+
+    /**
+     * Deletes the course with the given id.
+     *
+     * @param id the course id
+     */
+    void deleteById(UUID id);
 }

@@ -1,6 +1,8 @@
 package com.nsalazar.skill_track.student.domain.port.out;
 
 import com.nsalazar.skill_track.student.domain.Student;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -34,4 +36,19 @@ public interface StudentRepositoryPort {
      * @return {@code true} if a student with this email exists, {@code false} otherwise
      */
     boolean existsByEmail(String email);
+
+    /**
+     * Returns a paginated list of all students.
+     *
+     * @param pageable pagination and sorting parameters
+     * @return a page of students
+     */
+    Page<Student> findAll(Pageable pageable);
+
+    /**
+     * Deletes the student with the given id.
+     *
+     * @param id the student id
+     */
+    void deleteById(UUID id);
 }

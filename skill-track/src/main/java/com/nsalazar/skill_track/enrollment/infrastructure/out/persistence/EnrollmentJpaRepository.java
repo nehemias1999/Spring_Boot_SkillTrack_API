@@ -2,6 +2,7 @@ package com.nsalazar.skill_track.enrollment.infrastructure.out.persistence;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -18,4 +19,20 @@ interface EnrollmentJpaRepository extends JpaRepository<EnrollmentJpaEntity, UUI
      * @return {@code true} if the student is already enrolled in the course, {@code false} otherwise
      */
     boolean existsByStudentIdAndCourseId(UUID studentId, UUID courseId);
+
+    /**
+     * Returns all enrollment records for the given student.
+     *
+     * @param studentId the id of the student
+     * @return list of enrollment entities
+     */
+    List<EnrollmentJpaEntity> findByStudentId(UUID studentId);
+
+    /**
+     * Deletes the enrollment record for the given student and course pair.
+     *
+     * @param studentId the id of the student
+     * @param courseId  the id of the course
+     */
+    void deleteByStudentIdAndCourseId(UUID studentId, UUID courseId);
 }

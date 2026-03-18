@@ -2,6 +2,7 @@ package com.nsalazar.skill_track.enrollment.domain.port.out;
 
 import com.nsalazar.skill_track.enrollment.domain.Enrollment;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -26,4 +27,20 @@ public interface EnrollmentRepositoryPort {
      * @return {@code true} if the student is already enrolled in the course, {@code false} otherwise
      */
     boolean existsByStudentIdAndCourseId(UUID studentId, UUID courseId);
+
+    /**
+     * Returns all enrollments for the given student.
+     *
+     * @param studentId the student id
+     * @return list of enrollments
+     */
+    List<Enrollment> findByStudentId(UUID studentId);
+
+    /**
+     * Removes the enrollment for the given student and course.
+     *
+     * @param studentId the student id
+     * @param courseId  the course id
+     */
+    void deleteByStudentIdAndCourseId(UUID studentId, UUID courseId);
 }
