@@ -43,4 +43,13 @@ public interface EnrollmentRepositoryPort {
      * @param courseId  the course id
      */
     void deleteByStudentIdAndCourseId(UUID studentId, UUID courseId);
+
+    /**
+     * Retrieves the enrollment for the given student and course, if it exists.
+     *
+     * @param studentId the student id
+     * @param courseId  the course id
+     * @return an {@link java.util.Optional} containing the enrollment if found
+     */
+    java.util.Optional<Enrollment> findByStudentIdAndCourseId(UUID studentId, UUID courseId);
 }

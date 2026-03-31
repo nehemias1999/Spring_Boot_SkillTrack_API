@@ -1,5 +1,6 @@
 package com.nsalazar.skill_track.instructor.infrastructure.out.persistence;
 
+import com.nsalazar.skill_track.shared.persistence.Auditable;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,7 +19,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class InstructorJpaEntity {
+public class InstructorJpaEntity extends Auditable {
 
     /** Auto-generated UUID primary key. */
     @Id

@@ -22,6 +22,8 @@ public interface EnrollmentPersistenceMapper {
      */
     @Mapping(target = "student.id", source = "studentId")
     @Mapping(target = "course.id", source = "courseId")
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
     EnrollmentJpaEntity toJpaEntity(Enrollment enrollment);
 
     /**

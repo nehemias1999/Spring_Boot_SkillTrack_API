@@ -3,8 +3,12 @@ package com.nsalazar.skill_track.enrollment.infrastructure.in.web;
 import com.nsalazar.skill_track.enrollment.application.port.in.EnrollStudentUseCase;
 import com.nsalazar.skill_track.enrollment.application.port.in.ListEnrollmentsByStudentUseCase;
 import com.nsalazar.skill_track.enrollment.application.port.in.UnenrollStudentUseCase;
+import com.nsalazar.skill_track.enrollment.application.port.in.UpdateEnrollmentProgressUseCase;
+import com.nsalazar.skill_track.enrollment.application.port.in.UpdateEnrollmentProgressUseCase.UpdateEnrollmentProgressCommand;
 import com.nsalazar.skill_track.enrollment.infrastructure.in.web.dto.EnrollmentResponse;
+import com.nsalazar.skill_track.enrollment.infrastructure.in.web.dto.UpdateProgressRequest;
 import com.nsalazar.skill_track.enrollment.infrastructure.in.web.mapper.EnrollmentWebMapper;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -25,6 +29,7 @@ public class EnrollmentController {
     private final EnrollStudentUseCase enrollStudentUseCase;
     private final ListEnrollmentsByStudentUseCase listEnrollmentsByStudentUseCase;
     private final UnenrollStudentUseCase unenrollStudentUseCase;
+    private final UpdateEnrollmentProgressUseCase updateEnrollmentProgressUseCase;
     private final EnrollmentWebMapper mapper;
 
     /**
@@ -45,6 +50,21 @@ public class EnrollmentController {
     public EnrollmentResponse enroll(@PathVariable UUID studentId, @PathVariable UUID courseId) {
         log.info("POST /api/v1/students/{}/enrollments/{}", studentId, courseId);
         return mapper.toResponse(enrollStudentUseCase.enrollStudent(studentId, courseId));
+    }
+
+    /**
+     * Handles {@code PATCH /api/v1/students/{studentId}/enrollments/{courseId}/progress} — updates progress.
+     */
+    @PatchMapping("/{courseId}/progress")
+    public EnrollmentResponse updateProgress(
+            @PathVariable UUID studentId,
+            @PathVariable UUID courseId,
+            @Valid @RequestBody UpdateProgressRequest request) {
+        log.info("PATCH /api/v1/students/{}/enrollments/{}/progress - progress: {}%",
+                studentId, courseId, request.progressPercentage());
+        UpdateEnrollmentProgressCommand command =
+                new UpdateEnrollmentProgressCommand(studentId, courseId, request.progressPercentage());
+        return mapper.toResponse(updateEnrollmentProgressUseCase.updateProgress(command));
     }
 
     /**

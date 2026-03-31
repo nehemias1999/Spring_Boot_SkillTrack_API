@@ -35,4 +35,13 @@ interface EnrollmentJpaRepository extends JpaRepository<EnrollmentJpaEntity, UUI
      * @param courseId  the id of the course
      */
     void deleteByStudentIdAndCourseId(UUID studentId, UUID courseId);
+
+    /**
+     * Returns the enrollment for the given student and course, if it exists.
+     *
+     * @param studentId the id of the student
+     * @param courseId  the id of the course
+     * @return an {@link java.util.Optional} containing the enrollment entity if found
+     */
+    java.util.Optional<EnrollmentJpaEntity> findByStudentIdAndCourseId(UUID studentId, UUID courseId);
 }

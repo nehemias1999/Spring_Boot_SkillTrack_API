@@ -3,12 +3,15 @@ package com.nsalazar.skill_track.enrollment.application.usecase;
 import com.nsalazar.skill_track.course.domain.port.out.CourseRepositoryPort;
 import com.nsalazar.skill_track.enrollment.application.port.in.EnrollStudentUseCase;
 import com.nsalazar.skill_track.enrollment.domain.Enrollment;
+import com.nsalazar.skill_track.enrollment.domain.EnrollmentStatus;
 import com.nsalazar.skill_track.enrollment.domain.port.out.EnrollmentRepositoryPort;
+import com.nsalazar.skill_track.shared.event.StudentEnrolledEvent;
 import com.nsalazar.skill_track.shared.exception.BusinessValidationException;
 import com.nsalazar.skill_track.shared.exception.ResourceNotFoundException;
 import com.nsalazar.skill_track.student.domain.port.out.StudentRepositoryPort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +32,7 @@ public class EnrollStudentService implements EnrollStudentUseCase {
     private final StudentRepositoryPort studentRepositoryPort;
     private final CourseRepositoryPort courseRepositoryPort;
     private final EnrollmentRepositoryPort enrollmentRepositoryPort;
+    private final ApplicationEventPublisher eventPublisher;
 
     /**
      * Enrolls a student in a course after validating all pre-conditions.
@@ -55,9 +59,12 @@ public class EnrollStudentService implements EnrollStudentUseCase {
             throw new BusinessValidationException(
                     "Student " + studentId + " is already enrolled in course " + courseId);
         }
-        Enrollment enrollment = new Enrollment(null, studentId, courseId, LocalDateTime.now());
+        Enrollment enrollment = new Enrollment(
+                null, studentId, courseId, LocalDateTime.now(),
+                EnrollmentStatus.ACTIVE, 0, null);
         Enrollment saved = enrollmentRepositoryPort.save(enrollment);
         log.info("Enrollment created successfully with id {}", saved.id());
+        eventPublisher.publishEvent(new StudentEnrolledEvent(this, saved));
         return saved;
     }
 }

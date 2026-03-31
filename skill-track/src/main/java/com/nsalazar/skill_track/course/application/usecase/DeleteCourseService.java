@@ -5,6 +5,7 @@ import com.nsalazar.skill_track.course.domain.port.out.CourseRepositoryPort;
 import com.nsalazar.skill_track.shared.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +28,7 @@ public class DeleteCourseService implements DeleteCourseUseCase {
      * @param id the course id
      */
     @Override
+    @CacheEvict(value = "courses", allEntries = true)
     public void deleteCourse(UUID id) {
         log.info("Deleting course with id '{}'", id);
         courseRepositoryPort.findById(id)

@@ -57,7 +57,8 @@ public class ProfileController {
     @PatchMapping
     public ProfileResponse updateProfile(@PathVariable UUID studentId, @RequestBody UpdateProfileRequest request) {
         log.info("PATCH /api/v1/students/{}/profile", studentId);
-        UpdateProfileCommand command = new UpdateProfileCommand(studentId, request.bio(), request.linkedInUrl(), request.phoneNumber());
+        UpdateProfileCommand command = new UpdateProfileCommand(studentId, request.bio(), request.linkedInUrl(),
+                request.phoneNumber(), request.githubUrl(), request.portfolioUrl(), request.avatarUrl());
         return mapper.toResponse(updateProfileUseCase.updateProfile(command));
     }
 

@@ -20,6 +20,8 @@ public interface CoursePersistenceMapper {
      * @return the corresponding JPA entity
      */
     @Mapping(target = "instructor.id", source = "instructorId")
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
     CourseJpaEntity toJpaEntity(Course course);
 
     /**

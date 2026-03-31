@@ -7,6 +7,7 @@ import com.nsalazar.skill_track.shared.exception.BusinessValidationException;
 import com.nsalazar.skill_track.shared.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,9 +29,12 @@ public class UpdateCourseService implements UpdateCourseUseCase {
      * @return the updated course
      */
     @Override
+    @CacheEvict(value = "courses", allEntries = true)
     public Course updateCourse(UpdateCourseCommand command) {
         log.info("Updating course with id '{}'", command.id());
-        if (command.title() == null && command.description() == null && command.price() == null) {
+        if (command.title() == null && command.description() == null && command.price() == null
+                && command.category() == null && command.difficulty() == null
+                && command.durationHours() == null && command.status() == null) {
             throw new BusinessValidationException("At least one field must be provided for update");
         }
         Course existing = courseRepositoryPort.findById(command.id())
@@ -41,7 +45,11 @@ public class UpdateCourseService implements UpdateCourseUseCase {
                 command.title() != null ? command.title() : existing.title(),
                 command.description() != null ? command.description() : existing.description(),
                 command.price() != null ? command.price() : existing.price(),
-                existing.instructorId()
+                existing.instructorId(),
+                command.category() != null ? command.category() : existing.category(),
+                command.difficulty() != null ? command.difficulty() : existing.difficulty(),
+                command.durationHours() != null ? command.durationHours() : existing.durationHours(),
+                command.status() != null ? command.status() : existing.status()
         );
         Course saved = courseRepositoryPort.save(updated);
         log.info("Course with id '{}' updated successfully", saved.id());

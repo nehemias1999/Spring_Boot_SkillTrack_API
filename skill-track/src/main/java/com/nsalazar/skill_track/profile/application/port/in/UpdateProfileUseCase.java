@@ -10,7 +10,15 @@ public interface UpdateProfileUseCase {
     /**
      * Command for updating a profile. All fields are optional (null = keep existing value).
      */
-    record UpdateProfileCommand(UUID studentId, String bio, String linkedInUrl, String phoneNumber) {}
+    record UpdateProfileCommand(
+            UUID studentId,
+            String bio,
+            String linkedInUrl,
+            String phoneNumber,
+            String githubUrl,
+            String portfolioUrl,
+            String avatarUrl
+    ) {}
 
     /**
      * Updates the profile for the given student with the provided non-null fields.

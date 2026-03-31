@@ -1,6 +1,10 @@
 package com.nsalazar.skill_track.course.infrastructure.out.persistence;
 
+import com.nsalazar.skill_track.course.domain.CourseCategory;
+import com.nsalazar.skill_track.course.domain.CourseDifficulty;
+import com.nsalazar.skill_track.course.domain.CourseStatus;
 import com.nsalazar.skill_track.instructor.infrastructure.out.persistence.InstructorJpaEntity;
+import com.nsalazar.skill_track.shared.persistence.Auditable;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,7 +22,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CourseJpaEntity {
+public class CourseJpaEntity extends Auditable {
 
     /** Auto-generated UUID primary key. */
     @Id
@@ -40,4 +44,20 @@ public class CourseJpaEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "instructor_id", nullable = false)
     private InstructorJpaEntity instructor;
+
+    /** Subject area of the course. */
+    @Enumerated(EnumType.STRING)
+    private CourseCategory category;
+
+    /** Difficulty level of the course. */
+    @Enumerated(EnumType.STRING)
+    private CourseDifficulty difficulty;
+
+    /** Estimated total duration in hours. */
+    private Integer durationHours;
+
+    /** Publication status of the course. */
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private CourseStatus status;
 }

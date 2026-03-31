@@ -18,7 +18,15 @@ public interface CreateProfileUseCase {
      * @param linkedInUrl optional LinkedIn profile URL
      * @param phoneNumber optional phone number
      */
-    record CreateProfileCommand(UUID studentId, String bio, String linkedInUrl, String phoneNumber) {}
+    record CreateProfileCommand(
+            UUID studentId,
+            String bio,
+            String linkedInUrl,
+            String phoneNumber,
+            String githubUrl,
+            String portfolioUrl,
+            String avatarUrl
+    ) {}
 
     /**
      * Creates a new profile for the student identified in the command.

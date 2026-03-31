@@ -20,6 +20,8 @@ public interface ProfilePersistenceMapper {
      * @return the corresponding JPA entity
      */
     @Mapping(target = "student.id", source = "studentId")
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
     ProfileJpaEntity toJpaEntity(Profile profile);
 
     /**

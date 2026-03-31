@@ -1,5 +1,6 @@
 package com.nsalazar.skill_track.profile.infrastructure.out.persistence;
 
+import com.nsalazar.skill_track.shared.persistence.Auditable;
 import com.nsalazar.skill_track.student.infrastructure.out.persistence.StudentJpaEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -17,7 +18,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProfileJpaEntity {
+public class ProfileJpaEntity extends Auditable {
 
     /** Auto-generated UUID primary key. */
     @Id
@@ -37,4 +38,13 @@ public class ProfileJpaEntity {
 
     /** Optional phone number. */
     private String phoneNumber;
+
+    /** Optional GitHub profile URL. */
+    private String githubUrl;
+
+    /** Optional personal portfolio / website URL. */
+    private String portfolioUrl;
+
+    /** Optional URL pointing to the student's profile picture. */
+    private String avatarUrl;
 }

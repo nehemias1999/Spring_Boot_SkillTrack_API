@@ -25,6 +25,9 @@ public interface ProfileWebMapper {
      * @return the corresponding use-case command
      */
     @Mapping(target = "studentId", source = "studentId")
+    @Mapping(target = "githubUrl", source = "request.githubUrl")
+    @Mapping(target = "portfolioUrl", source = "request.portfolioUrl")
+    @Mapping(target = "avatarUrl", source = "request.avatarUrl")
     CreateProfileCommand toCommand(UUID studentId, CreateProfileRequest request);
 
     /**

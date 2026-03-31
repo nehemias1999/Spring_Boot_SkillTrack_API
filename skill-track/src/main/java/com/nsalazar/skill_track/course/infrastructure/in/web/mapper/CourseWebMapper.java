@@ -25,6 +25,9 @@ public interface CourseWebMapper {
      * @return the corresponding use-case command
      */
     @Mapping(target = "instructorId", source = "instructorId")
+    @Mapping(target = "category", source = "request.category")
+    @Mapping(target = "difficulty", source = "request.difficulty")
+    @Mapping(target = "durationHours", source = "request.durationHours")
     CreateCourseCommand toCommand(UUID instructorId, CreateCourseRequest request);
 
     /**

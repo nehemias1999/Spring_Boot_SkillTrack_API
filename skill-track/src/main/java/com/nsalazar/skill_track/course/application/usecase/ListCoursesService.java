@@ -5,6 +5,7 @@ import com.nsalazar.skill_track.course.domain.Course;
 import com.nsalazar.skill_track.course.domain.port.out.CourseRepositoryPort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,7 @@ public class ListCoursesService implements ListCoursesUseCase {
      * @return a page of courses
      */
     @Override
+    @Cacheable(value = "courses", key = "#pageable.pageNumber + '-' + #pageable.pageSize")
     public Page<Course> listCourses(Pageable pageable) {
         log.info("Listing courses with pageable: {}", pageable);
         return courseRepositoryPort.findAll(pageable);

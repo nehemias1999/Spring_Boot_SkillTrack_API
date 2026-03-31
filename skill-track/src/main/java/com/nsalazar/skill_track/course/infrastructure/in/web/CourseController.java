@@ -70,7 +70,8 @@ public class CourseController {
     @PatchMapping("/courses/{id}")
     public CourseResponse updateCourse(@PathVariable UUID id, @RequestBody UpdateCourseRequest request) {
         log.info("PATCH /api/v1/courses/{}", id);
-        UpdateCourseCommand command = new UpdateCourseCommand(id, request.title(), request.description(), request.price());
+        UpdateCourseCommand command = new UpdateCourseCommand(id, request.title(), request.description(),
+                request.price(), request.category(), request.difficulty(), request.durationHours(), request.status());
         return mapper.toResponse(updateCourseUseCase.updateCourse(command));
     }
 

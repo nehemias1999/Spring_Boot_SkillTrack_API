@@ -7,6 +7,7 @@ import com.nsalazar.skill_track.instructor.domain.port.out.InstructorRepositoryP
 import com.nsalazar.skill_track.shared.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +32,7 @@ public class CreateCourseService implements CreateCourseUseCase {
      * @throws ResourceNotFoundException if no instructor exists with the given id
      */
     @Override
+    @CacheEvict(value = "courses", allEntries = true)
     public Course createCourse(CreateCourseCommand command) {
         log.info("Creating course '{}' for instructorId {}", command.title(), command.instructorId());
         if (!instructorRepositoryPort.findById(command.instructorId()).isPresent()) {
@@ -38,7 +40,9 @@ public class CreateCourseService implements CreateCourseUseCase {
             throw new ResourceNotFoundException("Instructor not found with id: " + command.instructorId());
         }
         Course course = new Course(null, command.title(), command.description(),
-                command.price(), command.instructorId());
+                command.price(), command.instructorId(),
+                command.category(), command.difficulty(), command.durationHours(),
+                com.nsalazar.skill_track.course.domain.CourseStatus.DRAFT);
         Course saved = courseRepositoryPort.save(course);
         log.info("Course created successfully with id {}", saved.id());
         return saved;

@@ -46,7 +46,8 @@ public class CreateProfileService implements CreateProfileUseCase {
                     "A profile already exists for student with id: " + command.studentId());
         }
         Profile profile = new Profile(null, command.studentId(), command.bio(),
-                command.linkedInUrl(), command.phoneNumber());
+                command.linkedInUrl(), command.phoneNumber(),
+                command.githubUrl(), command.portfolioUrl(), command.avatarUrl());
         Profile saved = profileRepositoryPort.save(profile);
         log.info("Profile created successfully with id {} for studentId {}", saved.id(), command.studentId());
         return saved;

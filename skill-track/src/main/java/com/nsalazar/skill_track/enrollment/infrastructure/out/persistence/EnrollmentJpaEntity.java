@@ -1,6 +1,8 @@
 package com.nsalazar.skill_track.enrollment.infrastructure.out.persistence;
 
 import com.nsalazar.skill_track.course.infrastructure.out.persistence.CourseJpaEntity;
+import com.nsalazar.skill_track.enrollment.domain.EnrollmentStatus;
+import com.nsalazar.skill_track.shared.persistence.Auditable;
 import com.nsalazar.skill_track.student.infrastructure.out.persistence.StudentJpaEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -21,7 +23,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class EnrollmentJpaEntity {
+public class EnrollmentJpaEntity extends Auditable {
 
     /** Auto-generated UUID primary key. */
     @Id
@@ -41,4 +43,16 @@ public class EnrollmentJpaEntity {
     /** The timestamp at which the enrollment was created. */
     @Column(nullable = false)
     private LocalDateTime enrolledAt;
+
+    /** Current lifecycle status of the enrollment. */
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private EnrollmentStatus status;
+
+    /** Percentage of the course completed (0–100). */
+    @Column(nullable = false)
+    private int progressPercentage;
+
+    /** Timestamp set when the student reaches 100% progress; null until then. */
+    private LocalDateTime completedAt;
 }

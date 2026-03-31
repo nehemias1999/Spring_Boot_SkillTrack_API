@@ -30,7 +30,8 @@ public class UpdateProfileService implements UpdateProfileUseCase {
     @Override
     public Profile updateProfile(UpdateProfileCommand command) {
         log.info("Updating profile for studentId '{}'", command.studentId());
-        if (command.bio() == null && command.linkedInUrl() == null && command.phoneNumber() == null) {
+        if (command.bio() == null && command.linkedInUrl() == null && command.phoneNumber() == null
+                && command.githubUrl() == null && command.portfolioUrl() == null && command.avatarUrl() == null) {
             throw new BusinessValidationException("At least one field must be provided for update");
         }
         Profile existing = profileRepositoryPort.findByStudentId(command.studentId())
@@ -41,7 +42,10 @@ public class UpdateProfileService implements UpdateProfileUseCase {
                 existing.studentId(),
                 command.bio() != null ? command.bio() : existing.bio(),
                 command.linkedInUrl() != null ? command.linkedInUrl() : existing.linkedInUrl(),
-                command.phoneNumber() != null ? command.phoneNumber() : existing.phoneNumber()
+                command.phoneNumber() != null ? command.phoneNumber() : existing.phoneNumber(),
+                command.githubUrl() != null ? command.githubUrl() : existing.githubUrl(),
+                command.portfolioUrl() != null ? command.portfolioUrl() : existing.portfolioUrl(),
+                command.avatarUrl() != null ? command.avatarUrl() : existing.avatarUrl()
         );
         Profile saved = profileRepositoryPort.save(updated);
         log.info("Profile for studentId '{}' updated successfully", saved.studentId());
