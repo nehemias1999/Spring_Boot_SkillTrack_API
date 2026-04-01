@@ -11,10 +11,12 @@ import jakarta.validation.constraints.NotBlank;
  * @param lastName  the instructor's last name (required)
  * @param email     the instructor's email address (required, must be valid format)
  * @param bio       optional free-text biography
+ * @param address   optional physical address; stored via {@code @Embedded} (no separate table)
  */
 public record CreateInstructorRequest(
         @NotBlank(message = "First name is required") String firstName,
         @NotBlank(message = "Last name is required") String lastName,
         @Email(message = "Must be a valid email") @NotBlank(message = "Email is required") String email,
-        String bio
+        String bio,
+        AddressRequest address
 ) {}

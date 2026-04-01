@@ -9,5 +9,6 @@ import java.util.UUID;
  * @param firstName the student's first name
  * @param lastName  the student's last name
  * @param email     the student's unique email address
+ * @param version   optimistic-locking token managed by JPA; {@code null} for new entities
  */
-public record Student(UUID id, String firstName, String lastName, String email) {}
+public record Student(UUID id, String firstName, String lastName, String email, Long version) {}

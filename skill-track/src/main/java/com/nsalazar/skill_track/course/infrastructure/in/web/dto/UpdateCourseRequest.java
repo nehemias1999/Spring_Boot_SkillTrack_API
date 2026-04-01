@@ -5,9 +5,11 @@ import com.nsalazar.skill_track.course.domain.CourseDifficulty;
 import com.nsalazar.skill_track.course.domain.CourseStatus;
 
 import java.math.BigDecimal;
+import java.util.Set;
 
 /**
  * Request DTO for partially updating a course. All fields are optional — null means keep existing value.
+ * Providing an empty {@code keywords} set explicitly clears all keywords.
  */
 public record UpdateCourseRequest(
         String title,
@@ -16,5 +18,6 @@ public record UpdateCourseRequest(
         CourseCategory category,
         CourseDifficulty difficulty,
         Integer durationHours,
-        CourseStatus status
+        CourseStatus status,
+        Set<String> keywords
 ) {}

@@ -2,8 +2,8 @@ package com.nsalazar.skill_track.course.infrastructure.in.web.mapper;
 
 import com.nsalazar.skill_track.course.application.port.in.CreateCourseUseCase.CreateCourseCommand;
 import com.nsalazar.skill_track.course.domain.Course;
-import com.nsalazar.skill_track.course.infrastructure.in.web.dto.CreateCourseRequest;
 import com.nsalazar.skill_track.course.infrastructure.in.web.dto.CourseResponse;
+import com.nsalazar.skill_track.course.infrastructure.in.web.dto.CreateCourseRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -28,10 +28,12 @@ public interface CourseWebMapper {
     @Mapping(target = "category", source = "request.category")
     @Mapping(target = "difficulty", source = "request.difficulty")
     @Mapping(target = "durationHours", source = "request.durationHours")
+    @Mapping(target = "keywords", source = "request.keywords")
     CreateCourseCommand toCommand(UUID instructorId, CreateCourseRequest request);
 
     /**
      * Converts a {@link Course} domain object into a {@link CourseResponse} DTO.
+     * All collection fields ({@code keywords}, {@code prerequisiteIds}, {@code tagNames}) map by name.
      *
      * @param course the domain course
      * @return the response DTO suitable for serialization

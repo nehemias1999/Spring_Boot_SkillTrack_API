@@ -11,10 +11,11 @@ import com.nsalazar.skill_track.enrollment.infrastructure.in.web.mapper.Enrollme
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -33,13 +34,14 @@ public class EnrollmentController {
     private final EnrollmentWebMapper mapper;
 
     /**
-     * Handles {@code GET /api/v1/students/{studentId}/enrollments} — lists all enrollments for a student.
+     * Handles {@code GET /api/v1/students/{studentId}/enrollments} — returns a paginated list of enrollments.
+     * Supports standard Spring Data Pageable query params: {@code page}, {@code size}, {@code sort}.
      */
     @GetMapping
-    public List<EnrollmentResponse> listEnrollments(@PathVariable UUID studentId) {
-        log.info("GET /api/v1/students/{}/enrollments", studentId);
-        return listEnrollmentsByStudentUseCase.listEnrollmentsByStudent(studentId)
-                .stream().map(mapper::toResponse).toList();
+    public Page<EnrollmentResponse> listEnrollments(@PathVariable UUID studentId, Pageable pageable) {
+        log.info("GET /api/v1/students/{}/enrollments - page: {}", studentId, pageable);
+        return listEnrollmentsByStudentUseCase.listEnrollmentsByStudent(studentId, pageable)
+                .map(mapper::toResponse);
     }
 
     /**

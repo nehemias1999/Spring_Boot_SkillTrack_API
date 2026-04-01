@@ -1,10 +1,15 @@
 package com.nsalazar.skill_track.enrollment.infrastructure.out.persistence;
 
+import com.nsalazar.skill_track.course.infrastructure.out.persistence.CourseJpaEntity;
 import com.nsalazar.skill_track.enrollment.domain.Enrollment;
 import com.nsalazar.skill_track.enrollment.domain.port.out.EnrollmentRepositoryPort;
 import com.nsalazar.skill_track.enrollment.infrastructure.out.persistence.mapper.EnrollmentPersistenceMapper;
+import com.nsalazar.skill_track.student.infrastructure.out.persistence.StudentJpaEntity;
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -22,6 +27,7 @@ public class EnrollmentPersistenceAdapter implements EnrollmentRepositoryPort {
 
     private final EnrollmentJpaRepository enrollmentJpaRepository;
     private final EnrollmentPersistenceMapper mapper;
+    private final EntityManager entityManager;
 
     /**
      * Persists an enrollment record to the database.
@@ -33,7 +39,10 @@ public class EnrollmentPersistenceAdapter implements EnrollmentRepositoryPort {
     public Enrollment save(Enrollment enrollment) {
         log.debug("Saving enrollment for studentId {} in courseId {}",
                 enrollment.studentId(), enrollment.courseId());
-        return mapper.toDomain(enrollmentJpaRepository.save(mapper.toJpaEntity(enrollment)));
+        EnrollmentJpaEntity entity = mapper.toJpaEntity(enrollment);
+        entity.setStudent(entityManager.getReference(StudentJpaEntity.class, enrollment.studentId()));
+        entity.setCourse(entityManager.getReference(CourseJpaEntity.class, enrollment.courseId()));
+        return mapper.toDomain(enrollmentJpaRepository.save(entity));
     }
 
     /**
@@ -50,15 +59,29 @@ public class EnrollmentPersistenceAdapter implements EnrollmentRepositoryPort {
     }
 
     /**
-     * Returns all enrollments for the given student.
+     * Returns all enrollments for the given student, using JOIN FETCH to avoid N+1 queries.
      *
      * @param studentId the student id
-     * @return list of enrollments
+     * @return list of enrollments with student and course eagerly loaded
      */
     @Override
     public List<Enrollment> findByStudentId(UUID studentId) {
-        log.debug("Finding enrollments for studentId: {}", studentId);
-        return enrollmentJpaRepository.findByStudentId(studentId).stream().map(mapper::toDomain).toList();
+        log.debug("Finding enrollments for studentId: {} (JOIN FETCH)", studentId);
+        return enrollmentJpaRepository.findByStudentIdWithDetails(studentId).stream()
+                .map(mapper::toDomain).toList();
+    }
+
+    /**
+     * Returns a paginated view of enrollments for the given student.
+     *
+     * @param studentId the student id
+     * @param pageable  pagination / sort parameters
+     * @return a page of enrollments
+     */
+    @Override
+    public Page<Enrollment> findByStudentId(UUID studentId, Pageable pageable) {
+        log.debug("Finding enrollments (page {}) for studentId: {}", pageable.getPageNumber(), studentId);
+        return enrollmentJpaRepository.findByStudentId(studentId, pageable).map(mapper::toDomain);
     }
 
     /**

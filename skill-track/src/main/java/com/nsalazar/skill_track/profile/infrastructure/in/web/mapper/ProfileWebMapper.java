@@ -28,10 +28,12 @@ public interface ProfileWebMapper {
     @Mapping(target = "githubUrl", source = "request.githubUrl")
     @Mapping(target = "portfolioUrl", source = "request.portfolioUrl")
     @Mapping(target = "avatarUrl", source = "request.avatarUrl")
+    @Mapping(target = "skills", source = "request.skills")
     CreateProfileCommand toCommand(UUID studentId, CreateProfileRequest request);
 
     /**
      * Converts a {@link Profile} domain object into a {@link ProfileResponse} DTO.
+     * {@code skills} maps by name.
      *
      * @param profile the domain profile
      * @return the response DTO suitable for serialization

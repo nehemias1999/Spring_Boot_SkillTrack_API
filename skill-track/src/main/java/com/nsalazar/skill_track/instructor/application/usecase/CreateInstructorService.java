@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
 /**
  * Application service that handles the create-instructor use case.
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Slf4j
 @Service
+@Validated
 @RequiredArgsConstructor
 @Transactional
 public class CreateInstructorService implements CreateInstructorUseCase {
@@ -37,7 +39,7 @@ public class CreateInstructorService implements CreateInstructorUseCase {
                     "An instructor with email '" + command.email() + "' already exists.");
         }
         Instructor instructor = new Instructor(null, command.firstName(), command.lastName(),
-                command.email(), command.bio());
+                command.email(), command.bio(), command.address(), null);
         Instructor saved = instructorRepositoryPort.save(instructor);
         log.info("Instructor created successfully with id {}", saved.id());
         return saved;

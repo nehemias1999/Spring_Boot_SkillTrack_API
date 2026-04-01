@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 
 import java.math.BigDecimal;
+import java.util.Set;
 
 /**
  * Request DTO for creating a course.
@@ -18,5 +19,6 @@ public record CreateCourseRequest(
         @NotNull(message = "Price is required") @Positive(message = "Price must be positive") BigDecimal price,
         CourseCategory category,
         CourseDifficulty difficulty,
-        @PositiveOrZero(message = "Duration must be zero or positive") Integer durationHours
+        @PositiveOrZero(message = "Duration must be zero or positive") Integer durationHours,
+        Set<String> keywords
 ) {}

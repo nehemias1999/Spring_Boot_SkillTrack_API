@@ -30,6 +30,15 @@ public interface CourseRepositoryPort {
     Optional<Course> findById(UUID id);
 
     /**
+     * Looks up a course by id with its instructor eagerly fetched via a single JOIN FETCH query,
+     * avoiding the N+1 select problem that would occur when accessing the instructor lazily.
+     *
+     * @param id the course id to search for
+     * @return an {@link Optional} containing the fully loaded course if found, or empty otherwise
+     */
+    Optional<Course> findByIdWithInstructor(UUID id);
+
+    /**
      * Returns a paginated list of all courses.
      *
      * @param pageable pagination and sorting parameters

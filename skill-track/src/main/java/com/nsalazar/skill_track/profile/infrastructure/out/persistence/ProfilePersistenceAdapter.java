@@ -3,6 +3,8 @@ package com.nsalazar.skill_track.profile.infrastructure.out.persistence;
 import com.nsalazar.skill_track.profile.domain.Profile;
 import com.nsalazar.skill_track.profile.domain.port.out.ProfileRepositoryPort;
 import com.nsalazar.skill_track.profile.infrastructure.out.persistence.mapper.ProfilePersistenceMapper;
+import com.nsalazar.skill_track.student.infrastructure.out.persistence.StudentJpaEntity;
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -21,6 +23,7 @@ public class ProfilePersistenceAdapter implements ProfileRepositoryPort {
 
     private final ProfileJpaRepository profileJpaRepository;
     private final ProfilePersistenceMapper mapper;
+    private final EntityManager entityManager;
 
     /**
      * Persists a profile record to the database.
@@ -31,7 +34,9 @@ public class ProfilePersistenceAdapter implements ProfileRepositoryPort {
     @Override
     public Profile save(Profile profile) {
         log.debug("Saving profile for studentId {}", profile.studentId());
-        return mapper.toDomain(profileJpaRepository.save(mapper.toJpaEntity(profile)));
+        ProfileJpaEntity entity = mapper.toJpaEntity(profile);
+        entity.setStudent(entityManager.getReference(StudentJpaEntity.class, profile.studentId()));
+        return mapper.toDomain(profileJpaRepository.save(entity));
     }
 
     /**

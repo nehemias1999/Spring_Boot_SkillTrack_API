@@ -4,6 +4,8 @@ import com.nsalazar.skill_track.course.application.port.in.CreateCourseUseCase;
 import com.nsalazar.skill_track.course.application.port.in.DeleteCourseUseCase;
 import com.nsalazar.skill_track.course.application.port.in.GetCourseUseCase;
 import com.nsalazar.skill_track.course.application.port.in.ListCoursesUseCase;
+import com.nsalazar.skill_track.course.application.port.in.ManageCoursePrerequisiteUseCase;
+import com.nsalazar.skill_track.course.application.port.in.ManageCourseTagUseCase;
 import com.nsalazar.skill_track.course.application.port.in.UpdateCourseUseCase;
 import com.nsalazar.skill_track.course.application.port.in.UpdateCourseUseCase.UpdateCourseCommand;
 import com.nsalazar.skill_track.course.infrastructure.in.web.dto.CreateCourseRequest;
@@ -34,6 +36,8 @@ public class CourseController {
     private final ListCoursesUseCase listCoursesUseCase;
     private final UpdateCourseUseCase updateCourseUseCase;
     private final DeleteCourseUseCase deleteCourseUseCase;
+    private final ManageCoursePrerequisiteUseCase manageCoursePrerequisiteUseCase;
+    private final ManageCourseTagUseCase manageCourseTagUseCase;
     private final CourseWebMapper mapper;
 
     /**
@@ -71,7 +75,8 @@ public class CourseController {
     public CourseResponse updateCourse(@PathVariable UUID id, @RequestBody UpdateCourseRequest request) {
         log.info("PATCH /api/v1/courses/{}", id);
         UpdateCourseCommand command = new UpdateCourseCommand(id, request.title(), request.description(),
-                request.price(), request.category(), request.difficulty(), request.durationHours(), request.status());
+                request.price(), request.category(), request.difficulty(), request.durationHours(),
+                request.status(), request.keywords());
         return mapper.toResponse(updateCourseUseCase.updateCourse(command));
     }
 
@@ -83,5 +88,55 @@ public class CourseController {
     public void deleteCourse(@PathVariable UUID id) {
         log.info("DELETE /api/v1/courses/{}", id);
         deleteCourseUseCase.deleteCourse(id);
+    }
+
+    // ── Prerequisite endpoints ──────────────────────────────────────────────
+
+    /**
+     * Handles {@code POST /api/v1/courses/{id}/prerequisites/{prereqId}} —
+     * adds a prerequisite course to the given course.
+     * Demonstrates the self-referential {@code @ManyToMany} with {@code @EmbeddedId} composite PK.
+     */
+    @PostMapping("/courses/{id}/prerequisites/{prereqId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void addPrerequisite(@PathVariable UUID id, @PathVariable UUID prereqId) {
+        log.info("POST /api/v1/courses/{}/prerequisites/{}", id, prereqId);
+        manageCoursePrerequisiteUseCase.addPrerequisite(id, prereqId);
+    }
+
+    /**
+     * Handles {@code DELETE /api/v1/courses/{id}/prerequisites/{prereqId}} —
+     * removes a prerequisite from the given course.
+     */
+    @DeleteMapping("/courses/{id}/prerequisites/{prereqId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void removePrerequisite(@PathVariable UUID id, @PathVariable UUID prereqId) {
+        log.info("DELETE /api/v1/courses/{}/prerequisites/{}", id, prereqId);
+        manageCoursePrerequisiteUseCase.removePrerequisite(id, prereqId);
+    }
+
+    // ── Tag endpoints ───────────────────────────────────────────────────────
+
+    /**
+     * Handles {@code POST /api/v1/courses/{id}/tags/{tagName}} —
+     * adds a tag to the given course, creating the tag entity if it does not yet exist.
+     * Demonstrates {@code @ManyToMany @JoinTable} with independent tag lifecycle.
+     */
+    @PostMapping("/courses/{id}/tags/{tagName}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void addTag(@PathVariable UUID id, @PathVariable String tagName) {
+        log.info("POST /api/v1/courses/{}/tags/{}", id, tagName);
+        manageCourseTagUseCase.addTag(id, tagName);
+    }
+
+    /**
+     * Handles {@code DELETE /api/v1/courses/{id}/tags/{tagName}} —
+     * removes a tag from the given course (the tag entity itself is not deleted).
+     */
+    @DeleteMapping("/courses/{id}/tags/{tagName}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void removeTag(@PathVariable UUID id, @PathVariable String tagName) {
+        log.info("DELETE /api/v1/courses/{}/tags/{}", id, tagName);
+        manageCourseTagUseCase.removeTag(id, tagName);
     }
 }

@@ -33,7 +33,7 @@ public class GetCourseService implements GetCourseUseCase {
     @Override
     public Course getCourseById(UUID id) {
         log.info("Fetching course with id {}", id);
-        Course course = courseRepositoryPort.findById(id)
+        Course course = courseRepositoryPort.findByIdWithInstructor(id)
                 .orElseThrow(() -> {
                     log.warn("Course not found with id {}", id);
                     return new ResourceNotFoundException("Course not found with id: " + id);

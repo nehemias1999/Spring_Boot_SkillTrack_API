@@ -2,6 +2,8 @@ package com.nsalazar.skill_track.profile.infrastructure.in.web.dto;
 
 import jakarta.validation.constraints.NotBlank;
 
+import java.util.Set;
+
 /**
  * Request DTO for creating a student profile.
  */
@@ -11,5 +13,6 @@ public record CreateProfileRequest(
         @NotBlank(message = "Phone number is required") String phoneNumber,
         String githubUrl,
         String portfolioUrl,
-        String avatarUrl
+        String avatarUrl,
+        Set<String> skills
 ) {}

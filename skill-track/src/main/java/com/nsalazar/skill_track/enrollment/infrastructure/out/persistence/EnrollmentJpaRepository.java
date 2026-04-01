@@ -1,6 +1,10 @@
 package com.nsalazar.skill_track.enrollment.infrastructure.out.persistence;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.UUID;
@@ -27,6 +31,25 @@ interface EnrollmentJpaRepository extends JpaRepository<EnrollmentJpaEntity, UUI
      * @return list of enrollment entities
      */
     List<EnrollmentJpaEntity> findByStudentId(UUID studentId);
+
+    /**
+     * Returns all enrollments for a student with their student and course eagerly loaded via JOIN FETCH,
+     * preventing the N+1 select problem when accessing enrollment details.
+     *
+     * @param studentId the id of the student
+     * @return list of fully initialised enrollment entities
+     */
+    @Query("SELECT e FROM EnrollmentJpaEntity e JOIN FETCH e.student JOIN FETCH e.course WHERE e.student.id = :studentId")
+    List<EnrollmentJpaEntity> findByStudentIdWithDetails(@Param("studentId") UUID studentId);
+
+    /**
+     * Returns a paginated list of enrollments for the given student.
+     *
+     * @param studentId the id of the student
+     * @param pageable  pagination / sort parameters
+     * @return a page of enrollment entities
+     */
+    Page<EnrollmentJpaEntity> findByStudentId(UUID studentId, Pageable pageable);
 
     /**
      * Deletes the enrollment record for the given student and course pair.

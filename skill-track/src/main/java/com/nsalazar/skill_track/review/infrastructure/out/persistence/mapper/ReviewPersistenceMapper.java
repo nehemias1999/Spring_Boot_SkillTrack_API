@@ -11,8 +11,8 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface ReviewPersistenceMapper {
 
-    @Mapping(target = "student.id", source = "studentId")
-    @Mapping(target = "course.id", source = "courseId")
+    @Mapping(target = "student", ignore = true)
+    @Mapping(target = "course", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
     ReviewJpaEntity toJpaEntity(Review review);

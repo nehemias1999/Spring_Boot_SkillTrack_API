@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 import java.math.BigDecimal;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -26,6 +27,7 @@ public interface CreateCourseUseCase {
      * @param category      optional subject area
      * @param difficulty    optional difficulty level
      * @param durationHours optional estimated duration in hours
+     * @param keywords      optional free-form keyword strings (stored via {@code @ElementCollection})
      */
     record CreateCourseCommand(
             UUID instructorId,
@@ -34,7 +36,8 @@ public interface CreateCourseUseCase {
             @NotNull @Positive BigDecimal price,
             CourseCategory category,
             CourseDifficulty difficulty,
-            Integer durationHours
+            Integer durationHours,
+            Set<String> keywords
     ) {}
 
     /**

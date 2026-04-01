@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.UUID;
 
@@ -17,6 +18,7 @@ import java.util.UUID;
  */
 @Slf4j
 @Service
+@Validated
 @RequiredArgsConstructor
 @Transactional
 public class UpdateStudentService implements UpdateStudentUseCase {
@@ -42,7 +44,8 @@ public class UpdateStudentService implements UpdateStudentUseCase {
                 existing.id(),
                 command.firstName() != null ? command.firstName() : existing.firstName(),
                 command.lastName() != null ? command.lastName() : existing.lastName(),
-                command.email() != null ? command.email() : existing.email()
+                command.email() != null ? command.email() : existing.email(),
+                existing.version()
         );
         Student saved = studentRepositoryPort.save(updated);
         log.info("Student with id '{}' updated successfully", saved.id());

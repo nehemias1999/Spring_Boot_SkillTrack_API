@@ -10,5 +10,7 @@ import java.util.UUID;
  * @param lastName  the instructor's last name
  * @param email     the instructor's email address
  * @param bio       optional free-text biography
+ * @param address   optional physical address (may be {@code null} if not provided)
  */
-public record InstructorResponse(UUID id, String firstName, String lastName, String email, String bio) {}
+public record InstructorResponse(UUID id, String firstName, String lastName, String email, String bio,
+                                 AddressResponse address) {}

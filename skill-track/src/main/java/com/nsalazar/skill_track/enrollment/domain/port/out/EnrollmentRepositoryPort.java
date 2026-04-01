@@ -1,6 +1,8 @@
 package com.nsalazar.skill_track.enrollment.domain.port.out;
 
 import com.nsalazar.skill_track.enrollment.domain.Enrollment;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.UUID;
@@ -29,12 +31,22 @@ public interface EnrollmentRepositoryPort {
     boolean existsByStudentIdAndCourseId(UUID studentId, UUID courseId);
 
     /**
-     * Returns all enrollments for the given student.
+     * Returns all enrollments for the given student (non-paginated).
+     * Uses JOIN FETCH internally to avoid N+1 queries.
      *
      * @param studentId the student id
      * @return list of enrollments
      */
     List<Enrollment> findByStudentId(UUID studentId);
+
+    /**
+     * Returns a paginated view of all enrollments for the given student.
+     *
+     * @param studentId the student id
+     * @param pageable  pagination parameters
+     * @return a page of enrollments
+     */
+    Page<Enrollment> findByStudentId(UUID studentId, Pageable pageable);
 
     /**
      * Removes the enrollment for the given student and course.

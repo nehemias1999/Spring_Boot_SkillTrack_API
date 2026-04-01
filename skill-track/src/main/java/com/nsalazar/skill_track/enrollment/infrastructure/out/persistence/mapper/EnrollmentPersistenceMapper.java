@@ -20,8 +20,8 @@ public interface EnrollmentPersistenceMapper {
      * @param enrollment the domain enrollment
      * @return the corresponding JPA entity
      */
-    @Mapping(target = "student.id", source = "studentId")
-    @Mapping(target = "course.id", source = "courseId")
+    @Mapping(target = "student", ignore = true)
+    @Mapping(target = "course", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
     EnrollmentJpaEntity toJpaEntity(Enrollment enrollment);

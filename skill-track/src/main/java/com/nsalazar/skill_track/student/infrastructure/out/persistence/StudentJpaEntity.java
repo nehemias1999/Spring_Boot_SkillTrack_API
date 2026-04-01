@@ -23,6 +23,13 @@ public class StudentJpaEntity extends Auditable {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    /**
+     * Optimistic locking version field. Hibernate increments this on every update;
+     * a stale-version write throws {@link org.springframework.orm.ObjectOptimisticLockingFailureException}.
+     */
+    @Version
+    private Long version;
+
     /** The student's first name. */
     @Column(nullable = false)
     private String firstName;

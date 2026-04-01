@@ -2,6 +2,7 @@ package com.nsalazar.skill_track.course.application.usecase;
 
 import com.nsalazar.skill_track.course.application.port.in.CreateCourseUseCase;
 import com.nsalazar.skill_track.course.domain.Course;
+import com.nsalazar.skill_track.course.domain.CourseStatus;
 import com.nsalazar.skill_track.course.domain.port.out.CourseRepositoryPort;
 import com.nsalazar.skill_track.instructor.domain.port.out.InstructorRepositoryPort;
 import com.nsalazar.skill_track.shared.exception.ResourceNotFoundException;
@@ -10,6 +11,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
+
+import java.util.Collections;
 
 /**
  * Application service that handles the create-course use case.
@@ -17,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Slf4j
 @Service
+@Validated
 @RequiredArgsConstructor
 @Transactional
 public class CreateCourseService implements CreateCourseUseCase {
@@ -42,7 +47,11 @@ public class CreateCourseService implements CreateCourseUseCase {
         Course course = new Course(null, command.title(), command.description(),
                 command.price(), command.instructorId(),
                 command.category(), command.difficulty(), command.durationHours(),
-                com.nsalazar.skill_track.course.domain.CourseStatus.DRAFT);
+                CourseStatus.DRAFT,
+                null,
+                command.keywords() != null ? command.keywords() : Collections.emptySet(),
+                Collections.emptySet(),
+                Collections.emptySet());
         Course saved = courseRepositoryPort.save(course);
         log.info("Course created successfully with id {}", saved.id());
         return saved;

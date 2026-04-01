@@ -2,6 +2,7 @@ package com.nsalazar.skill_track.profile.application.port.in;
 
 import com.nsalazar.skill_track.profile.domain.Profile;
 
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -13,10 +14,14 @@ public interface CreateProfileUseCase {
     /**
      * Immutable command object carrying the data required to create a student profile.
      *
-     * @param studentId   the id of the student for whom the profile is being created
-     * @param bio         optional free-text biography
-     * @param linkedInUrl optional LinkedIn profile URL
-     * @param phoneNumber optional phone number
+     * @param studentId    the id of the student for whom the profile is being created
+     * @param bio          optional free-text biography
+     * @param linkedInUrl  optional LinkedIn profile URL
+     * @param phoneNumber  optional phone number
+     * @param githubUrl    optional GitHub profile URL
+     * @param portfolioUrl optional personal portfolio URL
+     * @param avatarUrl    optional avatar image URL
+     * @param skills       optional set of skill tags (stored via {@code @ElementCollection})
      */
     record CreateProfileCommand(
             UUID studentId,
@@ -25,7 +30,8 @@ public interface CreateProfileUseCase {
             String phoneNumber,
             String githubUrl,
             String portfolioUrl,
-            String avatarUrl
+            String avatarUrl,
+            Set<String> skills
     ) {}
 
     /**

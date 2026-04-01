@@ -1,5 +1,6 @@
 package com.nsalazar.skill_track.profile.infrastructure.in.web.dto;
 
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -13,6 +14,7 @@ import java.util.UUID;
  * @param githubUrl    optional GitHub profile URL
  * @param portfolioUrl optional personal portfolio URL
  * @param avatarUrl    optional profile picture URL
+ * @param skills       set of skill tags stored via {@code @ElementCollection}
  */
 public record ProfileResponse(
         UUID id,
@@ -22,5 +24,6 @@ public record ProfileResponse(
         String phoneNumber,
         String githubUrl,
         String portfolioUrl,
-        String avatarUrl
+        String avatarUrl,
+        Set<String> skills
 ) {}

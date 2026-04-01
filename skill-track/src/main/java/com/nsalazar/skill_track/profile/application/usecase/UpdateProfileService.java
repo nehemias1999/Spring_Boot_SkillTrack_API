@@ -9,12 +9,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
 /**
  * Application service for partially updating a student's profile.
  */
 @Slf4j
 @Service
+@Validated
 @RequiredArgsConstructor
 @Transactional
 public class UpdateProfileService implements UpdateProfileUseCase {
@@ -31,7 +33,8 @@ public class UpdateProfileService implements UpdateProfileUseCase {
     public Profile updateProfile(UpdateProfileCommand command) {
         log.info("Updating profile for studentId '{}'", command.studentId());
         if (command.bio() == null && command.linkedInUrl() == null && command.phoneNumber() == null
-                && command.githubUrl() == null && command.portfolioUrl() == null && command.avatarUrl() == null) {
+                && command.githubUrl() == null && command.portfolioUrl() == null && command.avatarUrl() == null
+                && command.skills() == null) {
             throw new BusinessValidationException("At least one field must be provided for update");
         }
         Profile existing = profileRepositoryPort.findByStudentId(command.studentId())
@@ -45,7 +48,9 @@ public class UpdateProfileService implements UpdateProfileUseCase {
                 command.phoneNumber() != null ? command.phoneNumber() : existing.phoneNumber(),
                 command.githubUrl() != null ? command.githubUrl() : existing.githubUrl(),
                 command.portfolioUrl() != null ? command.portfolioUrl() : existing.portfolioUrl(),
-                command.avatarUrl() != null ? command.avatarUrl() : existing.avatarUrl()
+                command.avatarUrl() != null ? command.avatarUrl() : existing.avatarUrl(),
+                command.skills() != null ? command.skills() : existing.skills(),
+                existing.version()
         );
         Profile saved = profileRepositoryPort.save(updated);
         log.info("Profile for studentId '{}' updated successfully", saved.studentId());

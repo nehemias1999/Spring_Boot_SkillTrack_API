@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
 /**
  * Application service that handles the create-student use case.
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Slf4j
 @Service
+@Validated
 @RequiredArgsConstructor
 @Transactional
 public class CreateStudentService implements CreateStudentUseCase {
@@ -36,7 +38,7 @@ public class CreateStudentService implements CreateStudentUseCase {
             throw new BusinessValidationException(
                     "A student with email '" + command.email() + "' already exists.");
         }
-        Student student = new Student(null, command.firstName(), command.lastName(), command.email());
+        Student student = new Student(null, command.firstName(), command.lastName(), command.email(), null);
         Student saved = studentRepositoryPort.save(student);
         log.info("Student created successfully with id {}", saved.id());
         return saved;

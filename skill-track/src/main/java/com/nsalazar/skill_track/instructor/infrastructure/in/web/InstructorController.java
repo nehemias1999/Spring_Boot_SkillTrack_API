@@ -68,7 +68,12 @@ public class InstructorController {
     @PatchMapping("/{id}")
     public InstructorResponse updateInstructor(@PathVariable UUID id, @RequestBody UpdateInstructorRequest request) {
         log.info("PATCH /api/v1/instructors/{}", id);
-        UpdateInstructorCommand command = new UpdateInstructorCommand(id, request.firstName(), request.lastName(), request.email(), request.bio());
+        UpdateInstructorCommand command = new UpdateInstructorCommand(id, request.firstName(), request.lastName(),
+                request.email(), request.bio(),
+                request.address() != null
+                        ? new com.nsalazar.skill_track.instructor.domain.Address(
+                                request.address().street(), request.address().city(), request.address().country())
+                        : null);
         return mapper.toResponse(updateInstructorUseCase.updateInstructor(command));
     }
 }

@@ -3,6 +3,8 @@ package com.nsalazar.skill_track.course.infrastructure.out.persistence;
 import com.nsalazar.skill_track.course.domain.Course;
 import com.nsalazar.skill_track.course.domain.port.out.CourseRepositoryPort;
 import com.nsalazar.skill_track.course.infrastructure.out.persistence.mapper.CoursePersistenceMapper;
+import com.nsalazar.skill_track.instructor.infrastructure.out.persistence.InstructorJpaEntity;
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -23,6 +25,7 @@ public class CoursePersistenceAdapter implements CourseRepositoryPort {
 
     private final CourseJpaRepository courseJpaRepository;
     private final CoursePersistenceMapper mapper;
+    private final EntityManager entityManager;
 
     /**
      * Persists a course record to the database.
@@ -33,7 +36,12 @@ public class CoursePersistenceAdapter implements CourseRepositoryPort {
     @Override
     public Course save(Course course) {
         log.debug("Saving course with title '{}'", course.title());
-        return mapper.toDomain(courseJpaRepository.save(mapper.toJpaEntity(course)));
+        CourseJpaEntity entity = mapper.toJpaEntity(course);
+        // Use a Hibernate proxy for the instructor FK to avoid the "detached entity with null
+        // version" error that occurs in Hibernate 7 when a stub entity (id set, version null)
+        // is used as a @ManyToOne reference.
+        entity.setInstructor(entityManager.getReference(InstructorJpaEntity.class, course.instructorId()));
+        return mapper.toDomain(courseJpaRepository.save(entity));
     }
 
     /**
@@ -46,6 +54,19 @@ public class CoursePersistenceAdapter implements CourseRepositoryPort {
     public Optional<Course> findById(UUID id) {
         log.debug("Finding course by id {}", id);
         return courseJpaRepository.findById(id).map(mapper::toDomain);
+    }
+
+    /**
+     * Retrieves a course by id with its instructor eagerly loaded via JOIN FETCH,
+     * preventing the N+1 select problem when the instructor data is needed.
+     *
+     * @param id the course id
+     * @return an {@link Optional} containing the fully loaded course if found
+     */
+    @Override
+    public Optional<Course> findByIdWithInstructor(UUID id) {
+        log.debug("Finding course by id {} with instructor (JOIN FETCH)", id);
+        return courseJpaRepository.findByIdWithInstructor(id).map(mapper::toDomain);
     }
 
     /**

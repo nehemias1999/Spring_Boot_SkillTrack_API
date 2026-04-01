@@ -1,5 +1,6 @@
 package com.nsalazar.skill_track.instructor.application.port.in;
 
+import com.nsalazar.skill_track.instructor.domain.Address;
 import com.nsalazar.skill_track.instructor.domain.Instructor;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -17,12 +18,14 @@ public interface CreateInstructorUseCase {
      * @param lastName  the instructor's last name (must not be blank)
      * @param email     the instructor's email address (must be a valid email and not blank)
      * @param bio       optional free-text biography
+     * @param address   optional physical address (stored via {@code @Embedded}, no separate table)
      */
     record CreateInstructorCommand(
             @NotBlank String firstName,
             @NotBlank String lastName,
             @Email @NotBlank String email,
-            String bio
+            String bio,
+            Address address
     ) {}
 
     /**

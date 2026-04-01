@@ -1,6 +1,8 @@
 package com.nsalazar.skill_track.profile.application.port.in;
 
 import com.nsalazar.skill_track.profile.domain.Profile;
+
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -9,6 +11,7 @@ import java.util.UUID;
 public interface UpdateProfileUseCase {
     /**
      * Command for updating a profile. All fields are optional (null = keep existing value).
+     * An empty {@code skills} set explicitly clears all skills.
      */
     record UpdateProfileCommand(
             UUID studentId,
@@ -17,7 +20,8 @@ public interface UpdateProfileUseCase {
             String phoneNumber,
             String githubUrl,
             String portfolioUrl,
-            String avatarUrl
+            String avatarUrl,
+            Set<String> skills
     ) {}
 
     /**

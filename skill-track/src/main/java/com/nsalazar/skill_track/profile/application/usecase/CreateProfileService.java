@@ -10,6 +10,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
+
+import java.util.Collections;
 
 /**
  * Application service that handles the create-profile use case.
@@ -18,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Slf4j
 @Service
+@Validated
 @RequiredArgsConstructor
 @Transactional
 public class CreateProfileService implements CreateProfileUseCase {
@@ -47,7 +51,8 @@ public class CreateProfileService implements CreateProfileUseCase {
         }
         Profile profile = new Profile(null, command.studentId(), command.bio(),
                 command.linkedInUrl(), command.phoneNumber(),
-                command.githubUrl(), command.portfolioUrl(), command.avatarUrl());
+                command.githubUrl(), command.portfolioUrl(), command.avatarUrl(),
+                command.skills() != null ? command.skills() : Collections.emptySet(), null);
         Profile saved = profileRepositoryPort.save(profile);
         log.info("Profile created successfully with id {} for studentId {}", saved.id(), command.studentId());
         return saved;

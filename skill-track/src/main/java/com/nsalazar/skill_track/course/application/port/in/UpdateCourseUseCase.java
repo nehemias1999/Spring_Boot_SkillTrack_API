@@ -6,14 +6,17 @@ import com.nsalazar.skill_track.course.domain.CourseDifficulty;
 import com.nsalazar.skill_track.course.domain.CourseStatus;
 
 import java.math.BigDecimal;
+import java.util.Set;
 import java.util.UUID;
 
 /**
  * Inbound port for partially updating a course.
  */
 public interface UpdateCourseUseCase {
+
     /**
      * Command for updating a course. All fields are optional (null = keep existing value).
+     * An empty {@code keywords} set explicitly clears all keywords.
      */
     record UpdateCourseCommand(
             UUID id,
@@ -23,7 +26,8 @@ public interface UpdateCourseUseCase {
             CourseCategory category,
             CourseDifficulty difficulty,
             Integer durationHours,
-            CourseStatus status
+            CourseStatus status,
+            Set<String> keywords
     ) {}
 
     /**
